@@ -35,10 +35,11 @@ public class MessageListAdapter extends RecyclerView.Adapter {
     // Determines the appropriate ViewType according to the sender of the message.
     @Override
     public int getItemViewType(int position) {
-        Message message = (Message) mMessageList.get(position);
+        Message message = mMessageList.get(position);
 
-        // TODO
-        if (message.getSender().getUserId().equals(SendBird.getCurrentUser().getUserId())) {
+        // TODO: replace with current user id
+
+        if (message.getSender().getUserId() == 1) {
             // If the current user is the sender of the message
             return VIEW_TYPE_MESSAGE_SENT;
         } else {
@@ -126,6 +127,5 @@ public class MessageListAdapter extends RecyclerView.Adapter {
             timeText.setText(timestamp);
         }
     }
-
 
 }
