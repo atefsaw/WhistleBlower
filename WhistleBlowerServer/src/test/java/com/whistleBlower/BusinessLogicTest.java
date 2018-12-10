@@ -1,4 +1,4 @@
-package com.whistleBlower.demo;
+package com.whistleBlower;
 
 import com.whistleBlower.business_logic.BusinessLogic;
 import org.junit.Test;
