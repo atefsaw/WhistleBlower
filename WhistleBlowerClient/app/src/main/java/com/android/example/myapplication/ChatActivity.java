@@ -7,12 +7,14 @@ import android.support.v7.widget.RecyclerView;
 import android.view.Window;
 import android.view.WindowManager;
 
+import java.util.List;
+
 public class ChatActivity extends AppCompatActivity {
 
 
     private RecyclerView mMessageRecycler;
     private MessageListAdapter mMessageAdapter;
-
+    private List<Message> messageList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +31,7 @@ public class ChatActivity extends AppCompatActivity {
         setContentView(R.layout.activity_chat);
 
         mMessageRecycler = (RecyclerView) findViewById(R.id.reyclerview_message_list);
+
         mMessageAdapter = new MessageListAdapter(this, messageList);
         mMessageRecycler.setLayoutManager(new LinearLayoutManager(this));
     }
