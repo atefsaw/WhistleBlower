@@ -1,4 +1,4 @@
-package com.whistleBlower.demo.buisness_logic.model;
+package com.whistleBlower.model;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,26 +26,10 @@ public class Group {
         return groupIdCounter;
     }
 
-    public int getId() {
-        return id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-
     public List<User> getUsers() {
         return users;
     }
 
-    public void setUsers(List<User> users) {
-        this.users = users;
-    }
 
 
 

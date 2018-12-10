@@ -1,11 +1,11 @@
-package com.whistleBlower.demo.api;
+package com.whistleBlower.api;
 
-import com.whistleBlower.demo.buisness_logic.BusinessLogic;
-import com.whistleBlower.demo.buisness_logic.model.Group;
-import com.whistleBlower.demo.buisness_logic.model.Message;
-import com.whistleBlower.demo.buisness_logic.model.User;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.whistleBlower.business_logic.BusinessLogic;
+import com.whistleBlower.model.Group;
+import com.whistleBlower.model.Message;
+import com.whistleBlower.model.User;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -41,16 +41,15 @@ public class Controller {
         businessLogic.sendMessage(message);
     }
 
-    @GetMapping("/getUsers")
-    public List<User> getUsers(){
-        return businessLogic.getUsers();
+    @GetMapping("/pullMessages/{phoneNumber}")
+    public List<Message> pullMessages(@PathVariable String phoneNumber){
+        return businessLogic.pullMessagesForUser(phoneNumber);
     }
 
-    @GetMapping("/getGroups")
-    public List<Group> getGroups(){
-        return businessLogic.getGroups();
+    @GetMapping("/pullGroups/{phoneNumber}")
+    public List<Group> pullGroups(@PathVariable String phoneNumber){
+        return businessLogic.pullGroupsForUser(phoneNumber);
     }
-
 
 
 }
