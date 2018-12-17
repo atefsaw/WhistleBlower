@@ -1,23 +1,23 @@
 package com.android.example.myapplication;
 
 import java.sql.Time;
+import java.util.Calendar;
+import java.util.TimeZone;
 
 public class Message {
 
     private String content;
     private User sender;
     private Group group;
-    private long time;
+    private String time;
     private boolean isBelongsToCurrentUser;
-
 
     public Message(String content, User sender, Group group, boolean isBelongsToCurrentUser) {
         this.content = content;
         this.sender = sender;
         this.group = group;
-        this.time = System.currentTimeMillis();
+        this.time = initliazeTime();
         this.isBelongsToCurrentUser = isBelongsToCurrentUser;
-        // TODO send message to clients
     }
 
     public String getContent() {
@@ -44,14 +44,23 @@ public class Message {
         this.group = group;
     }
 
-    public long getTime() {
+    public String getTime() {
         return time;
     }
 
-    public void setTime(long time) {
+    public void setTime(String time) {
         this.time = time;
     }
 
     public boolean isBelongsToCurrentUser() { return isBelongsToCurrentUser; }
 
+    private String initliazeTime() {
+        long millis = System.currentTimeMillis();
+        Calendar c = Calendar.getInstance();
+        c.setTimeZone(TimeZone.getTimeZone("GMT+2"));
+        c.setTimeInMillis(millis);
+        int hours = c.get(Calendar.HOUR_OF_DAY);
+        int minutes = c.get(Calendar.MINUTE);
+        return String.format("%d:%d", hours, minutes);
+    }
 }

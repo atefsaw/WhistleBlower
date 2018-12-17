@@ -24,7 +24,7 @@
         android:layout_weight="2"
         android:divider="#fff"
         android:layout_height="wrap_content"
-        />
+     />
 
     <LinearLayout
         android:id="@+id/layout_chatbox"
