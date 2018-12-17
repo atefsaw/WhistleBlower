@@ -52,4 +52,8 @@ public class GroupListAdapter extends RecyclerView.Adapter <GroupListAdapter.Gro
     public int getItemCount() {
         return groupsItems.size();
     }
+
+    public void updateGroupItems(GroupItem item){
+        groupsItems.add(item);
+    }
 }

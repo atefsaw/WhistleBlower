@@ -1,11 +1,14 @@
 package com.android.example.myapplication;
 
+import android.widget.ImageButton;
+
 public class GroupItem {
     private int imageResource;
     private String groupName;
     private String groupLastMessage;
-    public GroupItem(int mImageResource, String groupName, String groupLastMessage){
-        this.imageResource = mImageResource;
+
+    public GroupItem(int imageResource, String groupName, String groupLastMessage){
+        this.imageResource = imageResource;
         this.groupName = groupName;
         this.groupLastMessage = groupLastMessage;
     }
