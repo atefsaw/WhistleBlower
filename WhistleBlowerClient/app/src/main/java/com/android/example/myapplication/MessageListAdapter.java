@@ -13,7 +13,12 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import org.w3c.dom.Text;
+
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 public class MessageListAdapter extends BaseAdapter {
@@ -57,19 +62,28 @@ public class MessageListAdapter extends BaseAdapter {
             holder.messageBody = (TextView) convertView.findViewById(R.id.text_message_body);
             convertView.setTag(holder);
             holder.messageBody.setText(message.getContent());
+
+            // TODO: Make this a function later
+            holder.messageTime = (TextView) convertView.findViewById(R.id.text_message_time);
+            long millis=System.currentTimeMillis();
+            Calendar c=Calendar.getInstance();
+            c.setTimeInMillis(millis);
+
+            int hours = (c.get(Calendar.HOUR) + 12) % 24;
+            int minutes = c.get(Calendar.MINUTE);
+            holder.messageTime.setText(String.format("%d:%d", hours, minutes));
+
         } else { // this message was sent by someone else so let's create an advanced chat bubble on the left
             convertView = messageInflater.inflate(R.layout.item_message_received, null);
             holder.avatar = (View) convertView.findViewById(R.id.image_message_profile);
 //            holder.name = (TextView) convertView.findViewById(R.id.name);
             holder.messageBody = (TextView) convertView.findViewById(R.id.text_message_body);
             convertView.setTag(holder);
-
 //            holder.name.setText(message.getData().getName());
             holder.messageBody.setText(message.getContent());
             GradientDrawable drawable = (GradientDrawable) holder.avatar.getBackground();
 //            drawable.setColor(Color.parseColor(message.getData().getColor()));
         }
-
         return convertView;
     }
 
@@ -79,4 +93,5 @@ class MessageViewHolder {
     public View avatar;
     public TextView name;
     public TextView messageBody;
+    public TextView messageTime;
 }

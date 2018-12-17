@@ -65,8 +65,5 @@ public class ChatActivity extends AppCompatActivity {
         messageAdapter = new MessageListAdapter(this);
         messagesView = (ListView) findViewById(R.id.messages_view);
         messagesView.setAdapter(messageAdapter);
-
-
-
     }
 }
