@@ -8,12 +8,15 @@ public class Message {
     private User sender;
     private Group group;
     private long time;
+    private boolean isBelongsToCurrentUser;
 
-    public Message(String content, User sender, Group group) {
+
+    public Message(String content, User sender, Group group, boolean isBelongsToCurrentUser) {
         this.content = content;
         this.sender = sender;
         this.group = group;
         this.time = System.currentTimeMillis();
+        this.isBelongsToCurrentUser = isBelongsToCurrentUser;
         // TODO send message to clients
     }
 
@@ -49,5 +52,6 @@ public class Message {
         this.time = time;
     }
 
+    public boolean isBelongsToCurrentUser() { return isBelongsToCurrentUser; }
 
 }

@@ -9,6 +9,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ListView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,45 +22,51 @@ public class ChatActivity extends AppCompatActivity {
     private List<Message> messageList = new ArrayList<>();
     private EditText editText;
 
-    private Message lastSentMessage;
+    private ArrayList<Message> messagesList;
+    private int messageListIndex = 0;
+
+    private MessageListAdapter messageAdapter;
+    private ListView messagesView;
+
+    private User currentUser;
+    private Group currentGroup;
 
     public void sendMessage(View view) {
         String textMessage = editText.getText().toString();
+        Message message = new Message(textMessage, currentUser, currentGroup, true);
+
         if (textMessage.length() > 0) {
-            lastSentMessage.setContent(textMessage);
-            messageList.add(lastSentMessage);
+            // TODO: add a function to send this message to all participants
+            message.setContent(textMessage);
             editText.getText().clear();
+            messageAdapter.add(message);
+            messagesView.setSelection(messagesView.getCount() - 1);
         }
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_chat);
+
+        // this is where the message text goes
         editText = (EditText) this.findViewById(R.id.edittext_chatbox);
 
+        // Temporary untill the server is ready.
         User atef = new User(1, "0523796040");
         List<User> usersOfGroup = new ArrayList<User>();
         usersOfGroup.add(atef);
-        Group group = new Group(usersOfGroup, "UX-Group");
+        Group group = new Group(usersOfGroup, "Software and UX Course");
         this.setTitle(group.getName());
+        currentUser = atef;
+        currentGroup = group;
 
-        lastSentMessage = new Message(null, atef, group);
 
-//        button.setOnClickListener(new OnClickListener()
-//        {
-//            public void onClick(View v)
-//            {
-//                ImageView iv = (ImageView) findViewById(R.id.imageview1);
-//                iv.setVisibility(View.VISIBLE);
-//            }
-//        });
+        messageAdapter = new MessageListAdapter(this);
+        messagesView = (ListView) findViewById(R.id.messages_view);
+        messagesView.setAdapter(messageAdapter);
 
 
 
-        mMessageRecycler = (RecyclerView) findViewById(R.id.reyclerview_message_list);
-        mMessageAdapter = new MessageListAdapter(this, messageList); // TODO: Get a messageList and show it
-        mMessageRecycler.setLayoutManager(new LinearLayoutManager(this));
     }
 }
