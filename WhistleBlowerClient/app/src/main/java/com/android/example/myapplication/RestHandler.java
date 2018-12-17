@@ -11,7 +11,7 @@ import java.util.List;
 public class RestHandler {
 
 
-     private User createUser(){
+     public User createUser(){
          final String uri = "http://localhost:8027/createUser";
          HttpHeaders headers = new HttpHeaders();
          headers.add("Content-Type", "application/json");
@@ -20,7 +20,7 @@ public class RestHandler {
     }
 
 
-    private void createGroup(Group group){
+    public void createGroup(Group group){
         final String uri = "http://localhost:8027/createGroup";
         HttpHeaders headers = new HttpHeaders();
         headers.add("Content-Type", "application/json");
@@ -30,7 +30,7 @@ public class RestHandler {
     }
 
 
-    private void sendMessages(Message message){
+    public void sendMessages(Message message){
         final String uri = "http://localhost:8027/sendMessage";
         HttpHeaders headers = new HttpHeaders();
         headers.add("Content-Type", "application/json");
@@ -40,7 +40,7 @@ public class RestHandler {
     }
 
 
-    private List<Message> pullMessages(String userId){
+    public List<Message> pullMessages(String userId){
         final String uri = "http://localhost:8027/pullMessages/" + userId;
         HttpHeaders headers = new HttpHeaders();
         headers.add("Content-Type", "application/json");
@@ -50,7 +50,7 @@ public class RestHandler {
     }
 
 
-    private List<Group> pullGroups(String phoneNumber){
+    public List<Group> pullGroups(String phoneNumber){
         final String uri = "http://localhost:8027/pullGroups/" + phoneNumber;
         HttpHeaders headers = new HttpHeaders();
         headers.add("Content-Type", "application/json");
