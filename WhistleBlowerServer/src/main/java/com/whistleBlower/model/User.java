@@ -5,20 +5,18 @@ import java.util.List;
 
 public class User {
 
-    private String phoneNumber;
+    private int userId;
     private List<Message> messagesToPull;
     private List<Group> groupsToPull;
+    private static int userIdCounter = 0;
 
 
-    User(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
+    public User() {
         this.messagesToPull = new ArrayList<>();
         this.groupsToPull = new ArrayList<>();
+        this.userId = generateUserId();
     }
 
-    public String getPhoneNumber() {
-        return phoneNumber;
-    }
 
     public void addMessage(Message message){
         messagesToPull.add(message);
@@ -39,6 +37,21 @@ public class User {
         groupsToPull.clear();
         return groupList;
     }
+
+    private int generateUserId(){
+        userIdCounter++;
+        return userIdCounter;
+    }
+
+    public int getUserId() {
+        return userId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
+    }
+
+
 
 
 }

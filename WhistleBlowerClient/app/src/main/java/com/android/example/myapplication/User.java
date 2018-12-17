@@ -6,23 +6,20 @@ import java.util.List;
 
 public class User {
 
-    private String phoneNumber;
+    private int userId;
     private List<Message> messagesToPull;
     private List<Group> groupsToPull;
 
-
-    User(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
-        this.messagesToPull = new ArrayList<>();
-        this.groupsToPull = new ArrayList<>();
-    }
-
-    public String getPhoneNumber() {
-        return phoneNumber;
-    }
-
     public void addMessage(Message message){
         messagesToPull.add(message);
+    }
+
+    public int getUserId() {
+        return userId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 
     public List<Message> pullMessages(){
@@ -40,6 +37,7 @@ public class User {
         groupsToPull.clear();
         return groupList;
     }
+
 
 
 }

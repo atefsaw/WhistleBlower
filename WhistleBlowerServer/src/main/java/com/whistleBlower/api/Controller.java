@@ -1,9 +1,7 @@
 package com.whistleBlower.api;
 
 import com.whistleBlower.business_logic.BusinessLogic;
-import com.whistleBlower.model.Group;
-import com.whistleBlower.model.Message;
-import com.whistleBlower.model.User;
+import com.whistleBlower.model.*;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -26,9 +24,9 @@ public class Controller {
         return "Hello World!";
     }
 
-    @PostMapping("/createUser")
-    public void createUser(User user){
-        businessLogic.createUser(user);
+    @GetMapping("/createUser")
+    public User createUser(){
+        return businessLogic.createUser();
     }
 
     @PostMapping("/createGroup")
@@ -42,13 +40,13 @@ public class Controller {
     }
 
     @GetMapping("/pullMessages/{phoneNumber}")
-    public List<Message> pullMessages(@PathVariable String phoneNumber){
-        return businessLogic.pullMessagesForUser(phoneNumber);
+    public MessageListWrapper pullMessages(@PathVariable int userId){
+        return new MessageListWrapper(businessLogic.pullMessagesForUser(userId));
     }
 
     @GetMapping("/pullGroups/{phoneNumber}")
-    public List<Group> pullGroups(@PathVariable String phoneNumber){
-        return businessLogic.pullGroupsForUser(phoneNumber);
+    public GroupListWrapper pullGroups(@PathVariable int userId){
+        return new GroupListWrapper(businessLogic.pullGroupsForUser(userId));
     }
 
 

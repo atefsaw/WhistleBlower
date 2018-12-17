@@ -6,68 +6,57 @@ import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
 
-/**
- * Created by eladbendavid on 12/10/18.
- */
+
 
 public class RestHandler {
 
 
-     void createUser(String phoneNumber){
-        final String uri = "http://localhost:8027/createUser";
-        User currUser = new User(phoneNumber);
-        HttpHeaders headers = new HttpHeaders();
-        headers.add("Content-Type", "application/json");
-        HttpEntity<User> request = new HttpEntity<>(currUser, headers);
-
-        RestTemplate restTemplate = new RestTemplate();
-        String result = restTemplate.postForObject(uri, request, String.class);
-        System.out.println(result);
+     private User createUser(){
+         final String uri = "http://localhost:8027/createUser";
+         HttpHeaders headers = new HttpHeaders();
+         headers.add("Content-Type", "application/json");
+         RestTemplate restTemplate = new RestTemplate();
+         return restTemplate.getForObject(uri,  User.class, headers);
     }
 
 
-    private void createGroup(List<User> groupMembers, String name){
+    private void createGroup(Group group){
         final String uri = "http://localhost:8027/createGroup";
-        Group currGroup = new Group(groupMembers, name);
         HttpHeaders headers = new HttpHeaders();
         headers.add("Content-Type", "application/json");
-        HttpEntity<Group> request = new HttpEntity<>(currGroup, headers);
+        HttpEntity<Group> request = new HttpEntity<>(group, headers);
         RestTemplate restTemplate = new RestTemplate();
-        String result = restTemplate.postForObject(uri, request, String.class);
-        System.out.println(result);
+        restTemplate.postForObject(uri, request, String.class);
     }
 
 
-    private void sendMessages(String phoneNumber){
-        final String uri = "http://localhost:8027/createUser";
-        User currUser = new User(phoneNumber);
+    private void sendMessages(Message message){
+        final String uri = "http://localhost:8027/sendMessage";
         HttpHeaders headers = new HttpHeaders();
         headers.add("Content-Type", "application/json");
-        HttpEntity<User> request = new HttpEntity<>(currUser, headers);
-
+        HttpEntity<Message> request = new HttpEntity<>(message, headers);
         RestTemplate restTemplate = new RestTemplate();
-        String result = restTemplate.postForObject(uri, request, String.class);
-        System.out.println(result);
+        restTemplate.postForObject(uri, request, String.class);
     }
 
 
-    private void pullMessages(String phoneNumber){
-        final String uri = "http://localhost:8027/pullMessages/" + phoneNumber;
-//        HttpHeaders headers = new HttpHeaders();
-//        headers.add("Content-Type", "application/json");
+    private List<Message> pullMessages(String userId){
+        final String uri = "http://localhost:8027/pullMessages/" + userId;
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Content-Type", "application/json");
         RestTemplate restTemplate = new RestTemplate();
-        String result = restTemplate.getForObject(uri, String.class);
-        System.out.println(result);
+        MessageListWrapper messageListWrapper = restTemplate.getForObject(uri, MessageListWrapper.class, headers);
+        return messageListWrapper.getMessageList();
     }
 
 
-    public static void pullGroups(String phoneNumber){
+    private List<Group> pullGroups(String phoneNumber){
         final String uri = "http://localhost:8027/pullGroups/" + phoneNumber;
-//        HttpHeaders headers = new HttpHeaders();
-//        headers.add("Content-Type", "application/json");
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Content-Type", "application/json");
         RestTemplate restTemplate = new RestTemplate();
-        String result = restTemplate.getForObject(uri, String.class);
-        System.out.println(result);
+        GroupListWrapper groupListWrapper = restTemplate.getForObject(uri, GroupListWrapper.class, headers);
+        return groupListWrapper.getGroupList();
     }
 
 }
