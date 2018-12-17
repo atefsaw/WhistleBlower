@@ -17,7 +17,7 @@ public class Group {
         this.users = users;
         this.id = generateGroupId();
         messages = new ArrayList<>();
-        Message defaultMessage = new Message("Hello, This is anonymous... ", new User("0000000000"), this);
+        Message defaultMessage = new Message("Hello, This is anonymous... ", new User("0000000000"), this, false);
         messages.add(defaultMessage);
     }
 
