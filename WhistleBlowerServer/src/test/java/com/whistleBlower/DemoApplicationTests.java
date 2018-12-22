@@ -1,4 +1,4 @@
-package com.whistleBlower.demo;
+package com.whistleBlower;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

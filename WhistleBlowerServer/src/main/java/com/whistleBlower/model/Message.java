@@ -1,5 +1,4 @@
-
-package com.android.example.myapplication;
+package com.whistleBlower.model;
 
 import java.util.Calendar;
 import java.util.TimeZone;
@@ -53,7 +52,9 @@ public class Message {
         this.time = time;
     }
 
-    public boolean isBelongsToCurrentUser() { return isBelongsToCurrentUser; }
+    public boolean isBelongsToCurrentUser() {
+        return isBelongsToCurrentUser;
+    }
 
     private String initliazeTime() {
         long millis = System.currentTimeMillis();

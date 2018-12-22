@@ -1,11 +1,9 @@
-package com.whistleBlower.demo.api;
+package com.whistleBlower.api;
 
-import com.whistleBlower.demo.buisness_logic.BusinessLogic;
-import com.whistleBlower.demo.buisness_logic.model.Group;
-import com.whistleBlower.demo.buisness_logic.model.Message;
-import com.whistleBlower.demo.buisness_logic.model.User;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.whistleBlower.business_logic.BusinessLogic;
+import com.whistleBlower.model.*;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -26,9 +24,9 @@ public class Controller {
         return "Hello World!";
     }
 
-    @PostMapping("/createUser")
-    public void createUser(User user){
-        businessLogic.createUser(user);
+    @GetMapping("/createUser")
+    public User createUser(){
+        return businessLogic.createUser();
     }
 
     @PostMapping("/createGroup")
@@ -41,16 +39,15 @@ public class Controller {
         businessLogic.sendMessage(message);
     }
 
-    @GetMapping("/getUsers")
-    public List<User> getUsers(){
-        return businessLogic.getUsers();
+    @GetMapping("/pullMessages/{phoneNumber}")
+    public MessageListWrapper pullMessages(@PathVariable int userId){
+        return new MessageListWrapper(businessLogic.pullMessagesForUser(userId));
     }
 
-    @GetMapping("/getGroups")
-    public List<Group> getGroups(){
-        return businessLogic.getGroups();
+    @GetMapping("/pullGroups/{phoneNumber}")
+    public GroupListWrapper pullGroups(@PathVariable int userId){
+        return new GroupListWrapper(businessLogic.pullGroupsForUser(userId));
     }
-
 
 
 }

@@ -1,6 +1,6 @@
-package com.whistleBlower.demo;
+package com.whistleBlower;
 
-import com.whistleBlower.demo.buisness_logic.BusinessLogic;
+import com.whistleBlower.business_logic.BusinessLogic;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;

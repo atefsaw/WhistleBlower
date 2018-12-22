@@ -1,4 +1,4 @@
-package com.whistleBlower.demo;
+package com.whistleBlower;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
