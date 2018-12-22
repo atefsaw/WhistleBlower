@@ -1,6 +1,5 @@
 package com.android.example.myapplication;
 
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,7 +17,7 @@ public class Group {
         this.users = users;
         this.id = generateGroupId();
         messages = new ArrayList<>();
-        Message defaultMessage = new Message("Hello, This is anonymous... ", new User("0000000000"), this);
+        Message defaultMessage = new Message("Hello, This is anonymous... ", new User(), this, false);
         messages.add(defaultMessage);
     }
 
@@ -27,26 +26,10 @@ public class Group {
         return groupIdCounter;
     }
 
-    public int getId() {
-        return id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-
     public List<User> getUsers() {
         return users;
     }
 
-    public void setUsers(List<User> users) {
-        this.users = users;
-    }
 
 
 

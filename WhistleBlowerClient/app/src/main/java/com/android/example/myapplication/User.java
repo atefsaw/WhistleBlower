@@ -6,37 +6,38 @@ import java.util.List;
 
 public class User {
 
-    private List<Group> groups;
-    private String phoneNumber;
     private int userId;
+    private List<Message> messagesToPull;
+    private List<Group> groupsToPull;
 
+    public void addMessage(Message message){
+        messagesToPull.add(message);
+    }
 
-    public User(int userId, String phoneNumber) {
-        this.phoneNumber = phoneNumber;
-        this.groups = new ArrayList<>();
+    public int getUserId() {
+        return userId;
+    }
+
+    public void setUserId(int userId) {
         this.userId = userId;
     }
 
-
-    public List<Group> getGroups() {
-        return groups;
+    public List<Message> pullMessages(){
+        List<Message> messageList = new ArrayList<>(messagesToPull);
+        messagesToPull.clear();
+        return messageList;
     }
 
-    public void setGroups(List<Group> groups) {
-        this.groups = groups;
+    public void addGroup(Group group){
+        groupsToPull.add(group);
     }
 
-    public String getPhoneNumber() {
-        return phoneNumber;
+    public List<Group> pullGroups(){
+        List<Group> groupList = new ArrayList<>(groupsToPull);
+        groupsToPull.clear();
+        return groupList;
     }
 
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
-    }
-
-    public int getUserId() { return this.userId; }
-
-    public void setUsedId(int id) { this.userId = id; }
 
 
 }

@@ -26,9 +26,10 @@ public class BusinessLogic {
         users = new ArrayList<>();
     }
 
-
-    public void createUser(User user){
+    public User createUser(){
+        User user = new User();
         users.add(user);
+        return user;
     }
 
     public void createGroup(Group group){
@@ -47,8 +48,8 @@ public class BusinessLogic {
         user.addGroup(group);
     }
 
-    public List<Group> pullGroupsForUser(String phoneNumber){
-        Optional<User> user = users.stream().filter(curr_user -> curr_user.getPhoneNumber().equals(phoneNumber)).findAny();
+    public List<Group> pullGroupsForUser(int userId){
+        Optional<User> user = users.stream().filter(curr_user -> curr_user.getUserId() == userId).findAny();
         if (user.isPresent()){
             return user.get().pullGroups();
         } else {
@@ -60,8 +61,8 @@ public class BusinessLogic {
         user.addMessage(message);
     }
 
-    public List<Message> pullMessagesForUser(String phoneNumber){
-        Optional<User> user = users.stream().filter(curr_user -> curr_user.getPhoneNumber().equals(phoneNumber)).findAny();
+    public List<Message> pullMessagesForUser(int userId){
+        Optional<User> user = users.stream().filter(curr_user -> curr_user.getUserId() == userId).findAny();
         if (user.isPresent()){
             return user.get().pullMessages();
         } else {
