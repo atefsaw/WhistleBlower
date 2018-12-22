@@ -1,3 +1,4 @@
+
 package com.android.example.myapplication;
 
 import android.graphics.Color;
@@ -10,6 +11,8 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ListView;
 import java.util.ArrayList;
+import java.util.List;
+
 import java.util.List;
 
 public class ChatActivity extends AppCompatActivity {
@@ -44,6 +47,7 @@ public class ChatActivity extends AppCompatActivity {
         }
     }
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,5 +74,9 @@ public class ChatActivity extends AppCompatActivity {
         messagesView = (ListView) findViewById(R.id.messages_view);
         messagesView.setAdapter(messageAdapter);
 
+        mMessageRecycler = (RecyclerView) findViewById(R.id.reyclerview_message_list);
+
+        mMessageAdapter = new MessageListAdapter(this, messageList);
+        mMessageRecycler.setLayoutManager(new LinearLayoutManager(this));
     }
 }

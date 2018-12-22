@@ -1,6 +1,4 @@
-
-package com.android.example.myapplication;
-
+package com.whistleBlower.model;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,17 +8,18 @@ public class User {
     private int userId;
     private List<Message> messagesToPull;
     private List<Group> groupsToPull;
+    private static int userIdCounter = 0;
+
+
+    public User() {
+        this.messagesToPull = new ArrayList<>();
+        this.groupsToPull = new ArrayList<>();
+        this.userId = generateUserId();
+    }
+
 
     public void addMessage(Message message){
         messagesToPull.add(message);
-    }
-
-    public int getUserId() {
-        return userId;
-    }
-
-    public void setUserId(int userId) {
-        this.userId = userId;
     }
 
     public List<Message> pullMessages(){
@@ -38,6 +37,20 @@ public class User {
         groupsToPull.clear();
         return groupList;
     }
+
+    private int generateUserId(){
+        userIdCounter++;
+        return userIdCounter;
+    }
+
+    public int getUserId() {
+        return userId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
+    }
+
 
 
 

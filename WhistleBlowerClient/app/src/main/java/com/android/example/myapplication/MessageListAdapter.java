@@ -81,3 +81,4 @@ class MessageViewHolder {
     public TextView messageBody;
     public TextView messageTime;
 }
+
