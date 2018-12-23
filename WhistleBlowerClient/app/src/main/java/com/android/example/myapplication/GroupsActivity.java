@@ -1,14 +1,18 @@
 package com.android.example.myapplication;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.telephony.TelephonyManager;
 import android.view.View;
 import android.widget.ImageButton;
 
@@ -22,20 +26,25 @@ public class GroupsActivity extends AppCompatActivity {
     int groupsNumber;
     private ImageButton addButton;
 
-
     ActionBar actionBar;
+    Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        groupsNumber = 0;
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_groups);
 
-
+        // TODO: make it a function
         actionBar = getSupportActionBar();
         actionBar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#00CED1")));
 
-        //TODO selects group from DB and add/update them to the groupItem array list
+        groupsNumber = 0;
+
+        String userPhoneNumber = getIntent().getStringExtra("PHONE_NUMBER");
+        System.out.println("Phone number is : " + userPhoneNumber);
+        
+        // TODO selects group from DB and add/update them to the groupItem array list
         this.groupsItems = new ArrayList<>();
         this.recyclerView = (RecyclerView) findViewById(R.id.GroupsRecyclerView);
         this.recyclerView.setHasFixedSize(true);
@@ -43,8 +52,6 @@ public class GroupsActivity extends AppCompatActivity {
         this.adapter = new GroupListAdapter(groupsItems);
         this.recyclerView.setAdapter(this.adapter);
         this.recyclerView.setLayoutManager(this.layoutManager);
-
-
 
         adapter.setOnItemClickListener(new GroupListAdapter.OnItemClickListener() {
             @Override
@@ -56,12 +63,9 @@ public class GroupsActivity extends AppCompatActivity {
 //                startActivity(intent);
                 adapter.notifyItemChanged(position);
 
-
             }
         });
-
     }
-
 
 
     public void addGroup(View view){
