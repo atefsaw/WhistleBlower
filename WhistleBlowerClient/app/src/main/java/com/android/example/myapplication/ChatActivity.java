@@ -58,7 +58,7 @@ public class ChatActivity extends AppCompatActivity {
         editText = (EditText) this.findViewById(R.id.edittext_chatbox);
 
         // Temporary until the server is ready
-        User atef = new User(1, "0523796040");
+        User atef = new User(1);
         List<User> usersOfGroup = new ArrayList<User>();
         usersOfGroup.add(atef);
 
