@@ -1,5 +1,6 @@
 package com.android.example.myapplication;
 
+import android.content.Intent;
 import android.widget.ImageButton;
 
 public class GroupItem {
@@ -13,6 +14,9 @@ public class GroupItem {
         this.groupLastMessage = groupLastMessage;
     }
 
+    public void changeText(String text) {
+        groupName = text;
+    }
 
     public int getImageResource() {
         return imageResource;

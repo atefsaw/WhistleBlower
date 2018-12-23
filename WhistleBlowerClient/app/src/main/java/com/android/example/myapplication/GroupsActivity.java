@@ -1,5 +1,10 @@
 package com.android.example.myapplication;
 
+import android.content.Context;
+import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -17,22 +22,46 @@ public class GroupsActivity extends AppCompatActivity {
     int groupsNumber;
     private ImageButton addButton;
 
+
+    ActionBar actionBar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         groupsNumber = 0;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_groups);
+
+
+        actionBar = getSupportActionBar();
+        actionBar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#00CED1")));
+
         //TODO selects group from DB and add/update them to the groupItem array list
         this.groupsItems = new ArrayList<>();
         this.recyclerView = (RecyclerView) findViewById(R.id.GroupsRecyclerView);
         this.recyclerView.setHasFixedSize(true);
         this.layoutManager = new LinearLayoutManager(this);
         this.adapter = new GroupListAdapter(groupsItems);
-        this.adapter = new GroupListAdapter(groupsItems);
         this.recyclerView.setAdapter(this.adapter);
         this.recyclerView.setLayoutManager(this.layoutManager);
 
+
+
+        adapter.setOnItemClickListener(new GroupListAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(int position) {
+
+//                Intent myactivity = new Intent(context.getApplicationContext(), ChatActivity.class);
+//                context.getApplicationContext().startActivity(myactivity);
+                groupsItems.get(position).changeText("For example");
+//                startActivity(intent);
+                adapter.notifyItemChanged(position);
+
+            }
+        });
+
     }
+
+
 
     public void addGroup(View view){
         this.groupsNumber += 1;
@@ -43,6 +72,5 @@ public class GroupsActivity extends AppCompatActivity {
         this.recyclerView.setAdapter(this.adapter);
         this.recyclerView.setLayoutManager(this.layoutManager);
     }
-
 
 }

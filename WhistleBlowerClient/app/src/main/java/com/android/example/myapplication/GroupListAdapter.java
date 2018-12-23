@@ -1,5 +1,7 @@
 package com.android.example.myapplication;
 
+import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -7,23 +9,47 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 
 public class GroupListAdapter extends RecyclerView.Adapter <GroupListAdapter.GroupViewHolder>{
 
+
     private ArrayList<GroupItem> groupsItems;
+    private OnItemClickListener mListener;
+
+    public interface OnItemClickListener {
+        void onItemClick(int position);
+    }
+
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        mListener = listener;
+    }
+
     public static class GroupViewHolder extends RecyclerView.ViewHolder{
         public ImageView groupImage;
         public TextView groupName;
         public TextView groupLastMsg;
 
-        public GroupViewHolder(View itemView) {
+
+        public GroupViewHolder(View itemView, final OnItemClickListener listener) {
             super(itemView);
             groupImage = itemView.findViewById(R.id.groupImage);
             groupName = itemView.findViewById(R.id.groupName);
             groupLastMsg = itemView.findViewById(R.id.groupLastMessage);
+
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (listener != null) {
+                        int position = getAdapterPosition();
+                        if (position != RecyclerView.NO_POSITION) {
+                            listener.onItemClick(position);
+                        }
+                    }
+                }
+            });
         }
     }
 
@@ -35,7 +61,7 @@ public class GroupListAdapter extends RecyclerView.Adapter <GroupListAdapter.Gro
     @Override
     public GroupViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View groupView = LayoutInflater.from(parent.getContext()).inflate(R.layout.group_item, parent, false);
-        GroupViewHolder groupViewHolder = new GroupViewHolder(groupView);
+        GroupViewHolder groupViewHolder = new GroupViewHolder(groupView, mListener);
         return groupViewHolder;
     }
 
