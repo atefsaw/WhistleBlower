@@ -31,6 +31,7 @@ public class GroupListAdapter extends RecyclerView.Adapter <GroupListAdapter.Gro
         public TextView groupName;
         public TextView groupLastMsg;
 
+        Context context;
 
         public GroupViewHolder(View itemView, final OnItemClickListener listener) {
             super(itemView);
@@ -45,7 +46,11 @@ public class GroupListAdapter extends RecyclerView.Adapter <GroupListAdapter.Gro
                     if (listener != null) {
                         int position = getAdapterPosition();
                         if (position != RecyclerView.NO_POSITION) {
-                            listener.onItemClick(position);
+                            // listener.onItemClick(position);
+                            // TODO: pass the contacts list from this intent
+                            Intent intent = new Intent (v.getContext(), ChatActivity.class);
+                            intent.putExtra("GROUP_NAME", groupName.getText());
+                            v.getContext().startActivity(intent);
                         }
                     }
                 }

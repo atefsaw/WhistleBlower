@@ -61,7 +61,9 @@ public class ChatActivity extends AppCompatActivity {
         User atef = new User(1, "0523796040");
         List<User> usersOfGroup = new ArrayList<User>();
         usersOfGroup.add(atef);
-        Group group = new Group(usersOfGroup, "Software and UX Course");
+
+        String groupName = getIntent().getStringExtra("GROUP_NAME");
+        Group group = new Group(usersOfGroup, groupName);
         this.setTitle(group.getName());
         currentUser = atef;
         currentGroup = group;

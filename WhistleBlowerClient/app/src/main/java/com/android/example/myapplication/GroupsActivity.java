@@ -56,6 +56,7 @@ public class GroupsActivity extends AppCompatActivity {
 //                startActivity(intent);
                 adapter.notifyItemChanged(position);
 
+
             }
         });
 
