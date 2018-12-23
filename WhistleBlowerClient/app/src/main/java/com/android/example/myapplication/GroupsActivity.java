@@ -73,6 +73,7 @@ public class GroupsActivity extends AppCompatActivity {
         Intent intent = new Intent(this, CreateGroup.class);
         startActivity(intent);
 
+
         this.groupsNumber += 1;
         GroupItem item = new GroupItem(R.drawable.ic_android, "Group"+this.groupsNumber,
                 "Last message in group.");
