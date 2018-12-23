@@ -13,22 +13,24 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".GroupsActivity">
-            <!--<intent-filter>-->
-                <!--<action android:name="android.intent.action.MAIN" />-->
 
-                <!--<category android:name="android.intent.category.LAUNCHER" />-->
-            <!--</intent-filter>-->
+            <!-- <intent-filter> -->
+            <!-- <action android:name="android.intent.action.MAIN" /> -->
+
+
+            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+            <!-- </intent-filter> -->
         </activity>
         <activity android:name=".ChatActivity" />
         CustomTitleBar
-        <activity android:name=".SignupActivity" >
+        <activity android:name=".SignupActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
-
             </intent-filter>
         </activity>
+        <activity android:name=".CreateGroup"></activity>
     </application>
 
 </manifest>
