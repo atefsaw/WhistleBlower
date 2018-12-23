@@ -1,8 +1,8 @@
 package com.android.example.myapplication;
 
-import java.sql.Time;
 import java.util.Calendar;
 import java.util.TimeZone;
+
 
 public class Message {
 

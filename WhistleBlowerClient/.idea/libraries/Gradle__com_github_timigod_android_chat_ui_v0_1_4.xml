@@ -1,0 +1,15 @@
+<component name="libraryTable">
+  <library name="Gradle: com.github.timigod:android-chat-ui-v0.1.4">
+    <ANNOTATIONS>
+      <root url="jar://C:/gradle-4.10/caches/transforms-1/files-1.1/android-chat-ui-v0.1.4.aar/30be9e99b3f780d61a91225b8a5a108a/annotations.zip!/" />
+    </ANNOTATIONS>
+    <CLASSES>
+      <root url="file://C:/gradle-4.10/caches/transforms-1/files-1.1/android-chat-ui-v0.1.4.aar/30be9e99b3f780d61a91225b8a5a108a/res" />
+      <root url="jar://C:/gradle-4.10/caches/transforms-1/files-1.1/android-chat-ui-v0.1.4.aar/30be9e99b3f780d61a91225b8a5a108a/jars/classes.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://C:/gradle-4.10/caches/modules-2/files-2.1/com.github.timigod/android-chat-ui/v0.1.4/671bacdca487d1e5a675ff09b7efcdb38b3af8a/android-chat-ui-v0.1.4-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
