@@ -28,7 +28,6 @@
             <EditText android:id="@+id/input_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="textCapWords"
                 android:hint="Phone Number" />
         </android.support.design.widget.TextInputLayout>
 
@@ -54,7 +53,8 @@
             android:layout_marginTop="24dp"
             android:layout_marginBottom="24dp"
             android:padding="12dp"
-            android:text="Sign up"/>
+            android:text="Sign up"
+            android:onClick="signUpUser"/>
 
         <!--<TextView android:id="@+id/link_login"-->
             <!--android:layout_width="fill_parent"-->

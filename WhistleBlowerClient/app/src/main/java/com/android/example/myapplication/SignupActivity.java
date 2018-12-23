@@ -25,27 +25,21 @@ public class SignupActivity extends AppCompatActivity {
         setContentView(R.layout.introduction_signup);
 
 
+
+    }
+
+    public void signUpUser(View view) {
         EditText mEdit = (EditText) findViewById(R.id.input_name);
         String userPhoneNumber = "";
         if (mEdit != null) {
             userPhoneNumber = String.valueOf(mEdit.getText());
         }
-
         Intent intent = new Intent(this, GroupsActivity.class);
         intent.putExtra("PHONE_NUMBER", userPhoneNumber);
-
-
-        final String toPassPhoneNumber = userPhoneNumber;
-        final Intent toPassIntent = intent;
-        Button button = (Button) findViewById(R.id.btn_signup);
-
-        button.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                if (!toPassPhoneNumber.equals("")) {
-                    v.getContext().startActivity(toPassIntent);
-                }
-            }
-        });
-
+        if (!userPhoneNumber.equals("")) {
+            startActivity(intent);
+        }
     }
+
+
 }

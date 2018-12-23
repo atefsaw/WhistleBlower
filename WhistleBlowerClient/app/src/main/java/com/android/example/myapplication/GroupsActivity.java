@@ -43,7 +43,7 @@ public class GroupsActivity extends AppCompatActivity {
 
         String userPhoneNumber = getIntent().getStringExtra("PHONE_NUMBER");
         System.out.println("Phone number is : " + userPhoneNumber);
-        
+
         // TODO selects group from DB and add/update them to the groupItem array list
         this.groupsItems = new ArrayList<>();
         this.recyclerView = (RecyclerView) findViewById(R.id.GroupsRecyclerView);
