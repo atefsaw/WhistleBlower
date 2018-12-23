@@ -17,7 +17,7 @@ public class Group {
         this.users = users;
         this.id = generateGroupId();
         messages = new ArrayList<>();
-        Message defaultMessage = new Message("Hello, This is anonymous... ", new User(0), this, false);
+        Message defaultMessage = new Message("Hello, This is anonymous... ", new User("0"), this, false);
         messages.add(defaultMessage);
     }
 
@@ -32,6 +32,10 @@ public class Group {
 
     public String getName(){
         return this.name;
+    }
+
+    public int getId() {
+        return this.id;
     }
 
 }

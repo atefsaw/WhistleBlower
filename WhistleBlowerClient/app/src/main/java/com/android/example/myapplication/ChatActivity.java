@@ -39,6 +39,7 @@ public class ChatActivity extends AppCompatActivity {
             // TODO: add a function to send this message to all participants
             message.setContent(textMessage);
             editText.getText().clear();
+            RestHandler.sendMessages(message);
             messageAdapter.add(message);
             messagesView.setSelection(messagesView.getCount() - 1);
         }
@@ -57,16 +58,17 @@ public class ChatActivity extends AppCompatActivity {
         // this is where the message text goes
         editText = (EditText) this.findViewById(R.id.edittext_chatbox);
 
+        String userPhoneNumber = getIntent().getStringExtra("CURRENT_PHONE_NUMBER");
+
         // Temporary until the server is ready
-        User atef = new User(1);
-        List<User> usersOfGroup = new ArrayList<User>();
-        usersOfGroup.add(atef);
+//        User currentUser = new User("1");
+//        List<User> usersOfGroup = new ArrayList<User>();
+//        usersOfGroup.add(atef);
 
         String groupName = getIntent().getStringExtra("GROUP_NAME");
-        Group group = new Group(usersOfGroup, groupName);
-        this.setTitle(group.getName());
-        currentUser = atef;
-        currentGroup = group;
+//        Group group = new Group(usersOfGroup, groupName);
+        this.setTitle(groupName);
+        currentUser = new User(userPhoneNumber);
 
         messageAdapter = new MessageListAdapter(this);
         messagesView = (ListView) findViewById(R.id.messages_view);

@@ -18,6 +18,8 @@ public class GroupListAdapter extends RecyclerView.Adapter <GroupListAdapter.Gro
     private ArrayList<GroupItem> groupsItems;
     private OnItemClickListener mListener;
 
+    static String currentPhoneNumber;
+
     public interface OnItemClickListener {
         void onItemClick(int position);
     }
@@ -50,6 +52,7 @@ public class GroupListAdapter extends RecyclerView.Adapter <GroupListAdapter.Gro
                             // TODO: pass the contacts list from this intent
                             Intent intent = new Intent (v.getContext(), ChatActivity.class);
                             intent.putExtra("GROUP_NAME", groupName.getText());
+                            intent.putExtra("CURRENT_PHONE_NUMBER", currentPhoneNumber);
                             v.getContext().startActivity(intent);
                         }
                     }
@@ -59,8 +62,9 @@ public class GroupListAdapter extends RecyclerView.Adapter <GroupListAdapter.Gro
     }
 
     // we can add another passing argument to the adapter
-    public GroupListAdapter(ArrayList<GroupItem> groupItems){
+    public GroupListAdapter(ArrayList<GroupItem> groupItems, String phoneNumber){
         this.groupsItems = groupItems;
+        currentPhoneNumber = phoneNumber;
     }
 
     @Override

@@ -14,7 +14,6 @@ import android.widget.EditText;
 
 public class SignupActivity extends AppCompatActivity {
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,6 +33,10 @@ public class SignupActivity extends AppCompatActivity {
         if (mEdit != null) {
             userPhoneNumber = String.valueOf(mEdit.getText());
         }
+
+        User newUser = new User(userPhoneNumber);
+        RestHandler.createUser(newUser);
+
         Intent intent = new Intent(this, GroupsActivity.class);
         intent.putExtra("PHONE_NUMBER", userPhoneNumber);
         if (!userPhoneNumber.equals("")) {

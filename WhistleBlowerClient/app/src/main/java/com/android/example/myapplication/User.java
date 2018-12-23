@@ -6,11 +6,11 @@ import java.util.List;
 
 public class User {
 
-    private int userId;
+    private String userId;
     private List<Message> messagesToPull;
     private List<Group> groupsToPull;
 
-    public User(int userId) {
+    public User(String userId) {
         this.userId = userId;
     }
 
@@ -18,11 +18,11 @@ public class User {
         messagesToPull.add(message);
     }
 
-    public int getUserId() {
+    public String getUserId() {
         return userId;
     }
 
-    public void setUserId(int userId) {
+    public void setUserId(String userId) {
         this.userId = userId;
     }
 
