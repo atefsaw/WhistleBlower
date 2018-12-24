@@ -12,6 +12,8 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+
 public class SignupActivity extends AppCompatActivity {
 
     @Override
@@ -35,7 +37,11 @@ public class SignupActivity extends AppCompatActivity {
         }
 
         User newUser = new User(userPhoneNumber);
-        RestHandler.createUser(newUser);
+//        try {
+//            RestHandler.createUser(newUser);
+//        } catch (JsonProcessingException e) {
+//            e.printStackTrace();
+//        }
 
         Intent intent = new Intent(this, GroupsActivity.class);
         intent.putExtra("PHONE_NUMBER", userPhoneNumber);

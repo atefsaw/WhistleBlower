@@ -1,25 +1,56 @@
 package com.android.example.myapplication;
 
+import android.os.AsyncTask;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.web.client.RestTemplate;
 
+import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.List;
-
 
 
 public class RestHandler {
 
-    static String HOST_IP = "132.64.34.241";
+    static String HOST_IP = "172.29.123.134";
+    static RestTemplate restTemplate = new RestTemplate();
 
-
-    public static void createUser(User user){
+    public static void createUser(User user) throws JsonProcessingException {
         final String uri = "http://" + HOST_IP + ":8027/createUser";
         HttpHeaders headers = new HttpHeaders();
         headers.add("Content-Type", "application/json");
-        HttpEntity<User> request = new HttpEntity<>(user, headers);
-        RestTemplate restTemplate = new RestTemplate();
-        restTemplate.postForObject(uri, request, String.class);
+        final HttpEntity<User> request = new HttpEntity<>(user, headers);
+        restTemplate = new RestTemplate();
+        final ObjectMapper objectMapper = new ObjectMapper();
+//        restTemplate.postForObject(uri, objectMapper.writeValueAsString(request), String.class);
+//        CreateUser createUserTask = new CreateUser();
+//        createUserTask.doInBackground(uri, objectMapper.writeValueAsString(request));
+
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try  {
+                    restTemplate.postForObject(uri, objectMapper.writeValueAsString(request), String.class);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        thread.start();
+
+        try {
+            thread.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+//        new CreateUser().execute(uri, objectMapper.writeValueAsString(request));
+
     }
 
 
@@ -27,9 +58,28 @@ public class RestHandler {
         final String uri = "http://" + HOST_IP +  ":8027/createGroup";
         HttpHeaders headers = new HttpHeaders();
         headers.add("Content-Type", "application/json");
-        HttpEntity<Group> request = new HttpEntity<>(group, headers);
-        RestTemplate restTemplate = new RestTemplate();
-        restTemplate.postForObject(uri, request, String.class);
+        final HttpEntity<Group> request = new HttpEntity<>(group, headers);
+        restTemplate = new RestTemplate();
+        final ObjectMapper objectMapper = new ObjectMapper();
+//        restTemplate.postForObject(uri, request, String.class);
+
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try  {
+                    restTemplate.postForObject(uri, objectMapper.writeValueAsString(request), String.class);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        thread.start();
+
+        try {
+            thread.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
 
@@ -38,27 +88,86 @@ public class RestHandler {
         HttpHeaders headers = new HttpHeaders();
         headers.add("Content-Type", "application/json");
         HttpEntity<Message> request = new HttpEntity<>(message, headers);
-        RestTemplate restTemplate = new RestTemplate();
+        restTemplate = new RestTemplate();
         restTemplate.postForObject(uri, request, String.class);
     }
 
 
     public static List<Message> pullMessages(String userId){
         final String uri = "http://" + HOST_IP + ":8027/pullMessages/" + userId;
-        HttpHeaders headers = new HttpHeaders();
-        headers.add("Content-Type", "application/json");
-        RestTemplate restTemplate = new RestTemplate();
-        MessageListWrapper messageListWrapper = restTemplate.getForObject(uri, MessageListWrapper.class, headers);
-        return messageListWrapper.getMessageList();
+//        HttpHeaders headers = new HttpHeaders();
+//        headers.add("Content-Type", "application/json");
+        restTemplate = new RestTemplate();
+        final List<List<Message>> messages = new ArrayList<>();
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try  {
+                    String jsonOutput = restTemplate.getForObject(uri, String.class);
+                    Gson gson = new Gson();
+                    Type listType = new TypeToken<List<Message>>(){}.getType();
+                    messages.add((List) gson.fromJson(jsonOutput, listType));
+//                    User firstUser = groups.get(0).getUsers().get(0);
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        thread.start();
+
+        try {
+            thread.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        return messages.get(0);
     }
 
 
     public static List<Group> pullGroups(String phoneNumber){
         final String uri = "http://" + HOST_IP + ":8027/pullGroups/" + phoneNumber;
-        HttpHeaders headers = new HttpHeaders();
-        headers.add("Content-Type", "application/json");
-        RestTemplate restTemplate = new RestTemplate();
-        GroupListWrapper groupListWrapper = restTemplate.getForObject(uri, GroupListWrapper.class, headers);
-        return groupListWrapper.getGroupList();
+        restTemplate = new RestTemplate();
+        final List<List<Group>> groups = new ArrayList<>();
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try  {
+                    String jsonOutput = restTemplate.getForObject(uri, String.class);
+                    Gson gson = new Gson();
+                    Type listType = new TypeToken<List<Group>>(){}.getType();
+                    groups.add((List) gson.fromJson(jsonOutput, listType));
+//                    User firstUser = groups.get(0).getUsers().get(0);
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        thread.start();
+
+        try {
+            thread.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        return groups.get(0);
+    }
+
+    private static class CreateUser extends AsyncTask<String, Integer, String> {
+
+        // This is run in a background thread
+        @Override
+        protected String doInBackground(String... params) {
+            // get the string from params, which is an array
+            String url = params[0];
+            String request = params[1];
+
+            restTemplate.postForObject(url, request, String.class);
+
+            return "Done";
+        }
     }
 }

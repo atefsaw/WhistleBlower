@@ -17,6 +17,7 @@ import android.view.View;
 import android.widget.ImageButton;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -33,7 +34,7 @@ public class GroupsActivity extends AppCompatActivity {
     List<Group> groups;
     List<Message> messages;
 
-    Map<Integer, List<Message>> groupToMessages;
+    Map<String, List<Message>> groupToMessages;
 
     User currentUser;
 
@@ -49,27 +50,36 @@ public class GroupsActivity extends AppCompatActivity {
 
         groupsNumber = 0;
 
-        String userPhoneNumber = getIntent().getStringExtra("PHONE_NUMBER");
+//        String userPhoneNumber = getIntent().getStringExtra("PHONE_NUMBER");
+        String userPhoneNumber = "2";
         currentUser = new User(userPhoneNumber);
 
         groups = RestHandler.pullGroups(userPhoneNumber);
         messages = RestHandler.pullMessages(userPhoneNumber);
 
+        groupToMessages = new HashMap<>();
         for (Message message : messages) {
-            int groupId = message.getGroup().getId();
-            if (!groupToMessages.containsKey(groupId)) {
+//            int groupId = message.getGroup().getId();
+            String groupName = message.getGroup().getName();
+            if (!groupToMessages.containsKey(groupName)) {
                 ArrayList<Message> messagesArray = new ArrayList<>();
                 messagesArray.add(message);
-                groupToMessages.put(groupId, messagesArray);
+                groupToMessages.put(groupName, messagesArray);
             } else {
-                groupToMessages.get(groupId).add(message);
+                groupToMessages.get(groupName).add(message);
             }
         }
 
         this.groupsItems = new ArrayList<>();
         for (Group group : groups) {
-            int messagesListSize = this.groupToMessages.get(group.getId()).size();
-            String lastMessage = this.groupToMessages.get(group.getId()).get(messagesListSize - 1).getContent();
+            int messagesListSize = this.groupToMessages.get(group.getName()).size();
+            String lastMessage;
+            if (messagesListSize > 0){
+                lastMessage = this.groupToMessages.get(group.getName()).get(messagesListSize - 1).getContent();
+            }
+            else {
+                lastMessage = " ";
+            }
             GroupItem item = new GroupItem(R.drawable.ic_android, group.getName(), lastMessage);
             this.groupsItems.add(item);
         }
@@ -78,7 +88,7 @@ public class GroupsActivity extends AppCompatActivity {
         this.recyclerView = (RecyclerView) findViewById(R.id.GroupsRecyclerView);
         this.recyclerView.setHasFixedSize(true);
         this.layoutManager = new LinearLayoutManager(this);
-        this.adapter = new GroupListAdapter(groupsItems, userPhoneNumber);
+        this.adapter = new GroupListAdapter(groupsItems, userPhoneNumber, groupToMessages);
         this.recyclerView.setAdapter(this.adapter);
         this.recyclerView.setLayoutManager(this.layoutManager);
 
@@ -86,10 +96,7 @@ public class GroupsActivity extends AppCompatActivity {
             @Override
             public void onItemClick(int position) {
 
-//                Intent myactivity = new Intent(context.getApplicationContext(), ChatActivity.class);
-//                context.getApplicationContext().startActivity(myactivity);
                 groupsItems.get(position).changeText("For example");
-//                startActivity(intent);
                 adapter.notifyItemChanged(position);
 
             }

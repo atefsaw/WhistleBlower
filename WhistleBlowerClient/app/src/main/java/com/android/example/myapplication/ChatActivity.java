@@ -39,7 +39,7 @@ public class ChatActivity extends AppCompatActivity {
             // TODO: add a function to send this message to all participants
             message.setContent(textMessage);
             editText.getText().clear();
-            RestHandler.sendMessages(message);
+//            RestHandler.sendMessages(message);
             messageAdapter.add(message);
             messagesView.setSelection(messagesView.getCount() - 1);
         }
@@ -52,27 +52,39 @@ public class ChatActivity extends AppCompatActivity {
 
         actionBar = getSupportActionBar();
         actionBar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#00CED1")));
-//        requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
-//        getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.chat_title_bar);
 
-        // this is where the message text goes
+
+        messagesList = new ArrayList<>();
+
+
+                // this is where the message text goes
         editText = (EditText) this.findViewById(R.id.edittext_chatbox);
 
         String userPhoneNumber = getIntent().getStringExtra("CURRENT_PHONE_NUMBER");
+        ArrayList<String> messages = getIntent().getStringArrayListExtra("GROUP_MESSAGES");
+        currentUser = new User(userPhoneNumber);
+
+        ArrayList<User> users = new ArrayList<>();
+        users.add(currentUser);
+        users.add(new User("0"));
+
+        String groupName = getIntent().getStringExtra("GROUP_NAME");
+        Group group = new Group(users, groupName);
+        this.setTitle(groupName);
+
+        Message message = new Message(messages.get(0), currentUser,group, false );
+        ArrayList<Message> messagesToSend = new ArrayList<>();
+        messagesToSend.add(message);
 
         // Temporary until the server is ready
 //        User currentUser = new User("1");
 //        List<User> usersOfGroup = new ArrayList<User>();
 //        usersOfGroup.add(atef);
 
-        String groupName = getIntent().getStringExtra("GROUP_NAME");
-//        Group group = new Group(usersOfGroup, groupName);
-        this.setTitle(groupName);
-        currentUser = new User(userPhoneNumber);
-
         messageAdapter = new MessageListAdapter(this);
         messagesView = (ListView) findViewById(R.id.messages_view);
         messagesView.setAdapter(messageAdapter);
+
 
     }
 }

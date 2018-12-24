@@ -11,12 +11,15 @@ import android.widget.TextView;
 
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 public class GroupListAdapter extends RecyclerView.Adapter <GroupListAdapter.GroupViewHolder>{
 
 
     private ArrayList<GroupItem> groupsItems;
     private OnItemClickListener mListener;
+    static Map<String, List<Message>> currentgroupToMessages;
 
     static String currentPhoneNumber;
 
@@ -50,9 +53,14 @@ public class GroupListAdapter extends RecyclerView.Adapter <GroupListAdapter.Gro
                         if (position != RecyclerView.NO_POSITION) {
                             // listener.onItemClick(position);
                             // TODO: pass the contacts list from this intent
+                            final ArrayList<String> messsagesList = new ArrayList<>();
+                            for (Message message : currentgroupToMessages.get(groupName.getText())) {
+                                messsagesList.add(message.getContent());
+                            }
                             Intent intent = new Intent (v.getContext(), ChatActivity.class);
                             intent.putExtra("GROUP_NAME", groupName.getText());
                             intent.putExtra("CURRENT_PHONE_NUMBER", currentPhoneNumber);
+                            intent.putStringArrayListExtra("GROUP_MESSAGES", messsagesList);
                             v.getContext().startActivity(intent);
                         }
                     }
@@ -62,9 +70,10 @@ public class GroupListAdapter extends RecyclerView.Adapter <GroupListAdapter.Gro
     }
 
     // we can add another passing argument to the adapter
-    public GroupListAdapter(ArrayList<GroupItem> groupItems, String phoneNumber){
+    public GroupListAdapter(ArrayList<GroupItem> groupItems, String phoneNumber, Map<String, List<Message>> groupToMessages){
         this.groupsItems = groupItems;
         currentPhoneNumber = phoneNumber;
+        currentgroupToMessages = groupToMessages;
     }
 
     @Override

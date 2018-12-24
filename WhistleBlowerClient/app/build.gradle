@@ -44,4 +44,7 @@ dependencies {
     implementation group: 'org.springframework.boot', name: 'spring-boot-starter-parent', version: '2.1.0.RELEASE'
 //    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: '2.1.1.RELEASE'
     implementation 'org.springframework.android:spring-android-rest-template:2.0.0.M3'
+
+    implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.9.8'
+    implementation 'com.google.code.gson:gson:2.8.2'
 }
