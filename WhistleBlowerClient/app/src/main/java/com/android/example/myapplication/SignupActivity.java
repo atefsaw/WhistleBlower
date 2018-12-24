@@ -24,9 +24,6 @@ public class SignupActivity extends AppCompatActivity {
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         getSupportActionBar().hide();
         setContentView(R.layout.introduction_signup);
-
-
-
     }
 
     public void signUpUser(View view) {
@@ -36,7 +33,7 @@ public class SignupActivity extends AppCompatActivity {
             userPhoneNumber = String.valueOf(mEdit.getText());
         }
 
-        User newUser = new User(userPhoneNumber);
+//        User newUser = new User(userPhoneNumber);
 //        try {
 //            RestHandler.createUser(newUser);
 //        } catch (JsonProcessingException e) {

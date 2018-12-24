@@ -15,8 +15,6 @@ import java.util.List;
 public class ChatActivity extends AppCompatActivity {
 
 
-    private RecyclerView mMessageRecycler;
-    private MessageListAdapter mMessageAdapter;
     private List<Message> messageList = new ArrayList<>();
     private EditText editText;
 
@@ -33,13 +31,11 @@ public class ChatActivity extends AppCompatActivity {
 
     public void sendMessage(View view) {
         String textMessage = editText.getText().toString();
-        Message message = new Message(textMessage, currentUser, currentGroup, true);
-
         if (textMessage.length() > 0) {
-            // TODO: add a function to send this message to all participants
+            Message message = new Message(textMessage, currentUser, currentGroup, true);
             message.setContent(textMessage);
             editText.getText().clear();
-//            RestHandler.sendMessages(message);
+            // TODO:        RestHandler.sendMessages(message);
             messageAdapter.add(message);
             messagesView.setSelection(messagesView.getCount() - 1);
         }
@@ -53,38 +49,43 @@ public class ChatActivity extends AppCompatActivity {
         actionBar = getSupportActionBar();
         actionBar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#00CED1")));
 
-
         messagesList = new ArrayList<>();
 
-
-                // this is where the message text goes
+        // this is where the message text goes
         editText = (EditText) this.findViewById(R.id.edittext_chatbox);
 
+        // Get Intents
         String userPhoneNumber = getIntent().getStringExtra("CURRENT_PHONE_NUMBER");
+        String groupName = getIntent().getStringExtra("GROUP_NAME");
         ArrayList<String> messages = getIntent().getStringArrayListExtra("GROUP_MESSAGES");
-        currentUser = new User(userPhoneNumber);
 
+        // Set the group
+        currentUser = new User(userPhoneNumber);
+        User applicationAdmin = new User("0");
         ArrayList<User> users = new ArrayList<>();
         users.add(currentUser);
-        users.add(new User("0"));
+        users.add(applicationAdmin);
+        currentGroup = new Group(users, groupName);
 
-        String groupName = getIntent().getStringExtra("GROUP_NAME");
-        Group group = new Group(users, groupName);
+        // set the action bar with the group name
         this.setTitle(groupName);
 
-        Message message = new Message(messages.get(0), currentUser,group, false );
-        ArrayList<Message> messagesToSend = new ArrayList<>();
-        messagesToSend.add(message);
-
-        // Temporary until the server is ready
-//        User currentUser = new User("1");
-//        List<User> usersOfGroup = new ArrayList<User>();
-//        usersOfGroup.add(atef);
+        final Message welcomeMessage = new Message("This is a welcome message", currentUser, currentGroup, false );
 
         messageAdapter = new MessageListAdapter(this);
         messagesView = (ListView) findViewById(R.id.messages_view);
         messagesView.setAdapter(messageAdapter);
 
+        messageAdapter.add(welcomeMessage);
+        messagesView.setSelection(messagesView.getCount() - 1);
 
+        /** TODO: runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                messageAdapter.add(welcomeMessage);
+                // scroll the ListView to the last added element
+                messagesView.setSelection(messagesView.getCount() - 1);
+            }
+        });*/
     }
 }

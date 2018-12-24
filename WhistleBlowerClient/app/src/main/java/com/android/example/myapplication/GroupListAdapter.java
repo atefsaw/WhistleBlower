@@ -54,9 +54,9 @@ public class GroupListAdapter extends RecyclerView.Adapter <GroupListAdapter.Gro
                             // listener.onItemClick(position);
                             // TODO: pass the contacts list from this intent
                             final ArrayList<String> messsagesList = new ArrayList<>();
-                            for (Message message : currentgroupToMessages.get(groupName.getText())) {
-                                messsagesList.add(message.getContent());
-                            }
+//                            for (Message message : currentgroupToMessages.get(groupName.getText())) {
+//                                messsagesList.add(message.getContent());
+//                            }
                             Intent intent = new Intent (v.getContext(), ChatActivity.class);
                             intent.putExtra("GROUP_NAME", groupName.getText());
                             intent.putExtra("CURRENT_PHONE_NUMBER", currentPhoneNumber);

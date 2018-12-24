@@ -67,8 +67,8 @@ public class MessageListAdapter extends BaseAdapter {
             convertView.setTag(holder);
 //            holder.name.setText(message.getData().getName());
             holder.messageBody.setText(message.getContent());
-            GradientDrawable drawable = (GradientDrawable) holder.avatar.getBackground();
-//            drawable.setColor(Color.parseColor(message.getData().getColor()));
+//           TODO: GradientDrawable drawable = (GradientDrawable) holder.avatar.getBackground();
+//           TODO: drawable.setColor(Color.parseColor(message.getData().getColor()));
         }
         return convertView;
     }

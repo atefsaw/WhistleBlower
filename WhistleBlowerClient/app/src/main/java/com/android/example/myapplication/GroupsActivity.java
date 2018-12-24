@@ -44,22 +44,20 @@ public class GroupsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_groups);
 
-        // TODO: make it a function
         actionBar = getSupportActionBar();
         actionBar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#00CED1")));
 
         groupsNumber = 0;
 
-//        String userPhoneNumber = getIntent().getStringExtra("PHONE_NUMBER");
+        // TODO:       String userPhoneNumber = getIntent().getStringExtra("PHONE_NUMBER");
         String userPhoneNumber = "2";
         currentUser = new User(userPhoneNumber);
 
-        groups = RestHandler.pullGroups(userPhoneNumber);
-        messages = RestHandler.pullMessages(userPhoneNumber);
+//        groups = RestHandler.pullGroups(userPhoneNumber);
+//        messages = RestHandler.pullMessages(userPhoneNumber);
 
-        groupToMessages = new HashMap<>();
+        /*groupToMessages = new HashMap<>();
         for (Message message : messages) {
-//            int groupId = message.getGroup().getId();
             String groupName = message.getGroup().getName();
             if (!groupToMessages.containsKey(groupName)) {
                 ArrayList<Message> messagesArray = new ArrayList<>();
@@ -68,10 +66,10 @@ public class GroupsActivity extends AppCompatActivity {
             } else {
                 groupToMessages.get(groupName).add(message);
             }
-        }
+        }*/
 
         this.groupsItems = new ArrayList<>();
-        for (Group group : groups) {
+        /**for (Group group : groups) {
             int messagesListSize = this.groupToMessages.get(group.getName()).size();
             String lastMessage;
             if (messagesListSize > 0){
@@ -82,7 +80,7 @@ public class GroupsActivity extends AppCompatActivity {
             }
             GroupItem item = new GroupItem(R.drawable.ic_android, group.getName(), lastMessage);
             this.groupsItems.add(item);
-        }
+        }*/
 
         // TODO selects group from DB and add/update them to the groupItem array list
         this.recyclerView = (RecyclerView) findViewById(R.id.GroupsRecyclerView);
@@ -110,8 +108,7 @@ public class GroupsActivity extends AppCompatActivity {
 
         this.groupsNumber += 1;
         String groupName = "Group" + this.groupsNumber;
-        // TODO: after finishing the group member choosing we need to pass it to RestHandler
-        //  RestHandler.createGroup();
+        // TODO:  RestHandler.createGroup();
         GroupItem item = new GroupItem(R.drawable.ic_android, "Group" + this.groupsNumber,
                 "Last message in group.");
         groupsItems.add(item);
