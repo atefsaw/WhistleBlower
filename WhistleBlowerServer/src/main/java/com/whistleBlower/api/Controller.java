@@ -35,10 +35,6 @@ public class Controller {
         businessLogic.sendMessage(message);
     }
 
-    @GetMapping("/pullMessages/{phoneNumber}")
-    public List<Message> pullMessages(@PathVariable String phoneNumber){
-        return businessLogic.pullMessagesForUser(phoneNumber);
-    }
 
     @GetMapping("/pullGroups/{phoneNumber}")
     public List<Group> pullGroups(@PathVariable String phoneNumber){
@@ -54,6 +50,17 @@ public class Controller {
     public List<Group> getGroups() {
         return businessLogic.getGroups();
     }
+
+    @GetMapping("/pullMessagesForGroup/{groupId}/{phoneNumber}")
+    public List<Message> pullMessagesForGroup(@PathVariable int groupId, @PathVariable String phoneNumber){
+        return businessLogic.pullMessagesForGroup(groupId, phoneNumber);
+    }
+
+    @GetMapping("/pullLastMessages/{phoneNumber}")
+    public List<Message> pullLastMessages(@PathVariable String phoneNumber){
+        return businessLogic.pullLastMessagesForUser(phoneNumber);
+    }
+
 
 
 }
