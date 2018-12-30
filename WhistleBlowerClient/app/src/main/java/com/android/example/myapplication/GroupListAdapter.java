@@ -59,7 +59,7 @@ public class GroupListAdapter extends RecyclerView.Adapter <GroupListAdapter.Gro
 //                            }
                             Intent intent = new Intent (v.getContext(), ChatActivity.class);
                             intent.putExtra("GROUP_NAME", groupName.getText());
-                            intent.putExtra("CURRENT_PHONE_NUMBER", currentPhoneNumber);
+                            intent.putExtra("PHONE_NUMBER", currentPhoneNumber);
                             intent.putStringArrayListExtra("GROUP_MESSAGES", messsagesList);
                             v.getContext().startActivity(intent);
                         }

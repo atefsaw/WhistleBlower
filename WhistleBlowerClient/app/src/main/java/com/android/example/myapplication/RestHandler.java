@@ -24,7 +24,7 @@ public class RestHandler {
     public static void createUser(User user) throws JsonProcessingException {
         final String uri = "http://" + HOST_IP + ":8027/createUser";
         HttpHeaders headers = new HttpHeaders();
-        headers.add("Content-Type", "application/json");
+        headers.add("content-type", "application/json");
         final HttpEntity<User> request = new HttpEntity<>(user, headers);
         restTemplate = new RestTemplate();
         final ObjectMapper objectMapper = new ObjectMapper();

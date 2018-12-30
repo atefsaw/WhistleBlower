@@ -32,7 +32,7 @@ public class ChatActivity extends AppCompatActivity {
     public void sendMessage(View view) {
         String textMessage = editText.getText().toString();
         if (textMessage.length() > 0) {
-            Message message = new Message(textMessage, currentUser, currentGroup, true);
+            Message message = new Message(textMessage, currentUser, currentGroup.getId(), true);
             message.setContent(textMessage);
             editText.getText().clear();
             // TODO:        RestHandler.sendMessages(message);
@@ -55,7 +55,7 @@ public class ChatActivity extends AppCompatActivity {
         editText = (EditText) this.findViewById(R.id.edittext_chatbox);
 
         // Get Intents
-        String userPhoneNumber = getIntent().getStringExtra("CURRENT_PHONE_NUMBER");
+        String userPhoneNumber = getIntent().getStringExtra("PHONE_NUMBER");
         String groupName = getIntent().getStringExtra("GROUP_NAME");
         ArrayList<String> messages = getIntent().getStringArrayListExtra("GROUP_MESSAGES");
 
@@ -65,12 +65,17 @@ public class ChatActivity extends AppCompatActivity {
         ArrayList<User> users = new ArrayList<>();
         users.add(currentUser);
         users.add(applicationAdmin);
-        currentGroup = new Group(users, groupName);
+
+        ArrayList<String> usersIDs = new ArrayList<>();
+        for (User user : users) {
+            usersIDs.add(user.getUserId());
+        }
+        currentGroup = new Group(usersIDs, groupName);
 
         // set the action bar with the group name
         this.setTitle(groupName);
 
-        final Message welcomeMessage = new Message("This is a welcome message", currentUser, currentGroup, false );
+        final Message welcomeMessage = new Message("This is a welcome message", currentUser, currentGroup.getId(), false );
 
         messageAdapter = new MessageListAdapter(this);
         messagesView = (ListView) findViewById(R.id.messages_view);
@@ -79,13 +84,5 @@ public class ChatActivity extends AppCompatActivity {
         messageAdapter.add(welcomeMessage);
         messagesView.setSelection(messagesView.getCount() - 1);
 
-        /** TODO: runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                messageAdapter.add(welcomeMessage);
-                // scroll the ListView to the last added element
-                messagesView.setSelection(messagesView.getCount() - 1);
-            }
-        });*/
     }
 }

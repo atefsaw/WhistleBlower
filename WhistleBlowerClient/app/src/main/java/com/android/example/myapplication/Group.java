@@ -1,41 +1,46 @@
 package com.android.example.myapplication;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class Group {
 
     private int id;
     private String name;
-    private List<User> users;
-    private List<Message> messages;
+    private List<String> userIds;
     private static int groupIdCounter = 0;
 
+    public Group() {
+    }
 
-    public Group(List<User> users, String name) {
+    public Group(List<String> userIds, String name) {
         this.name = name;
-        this.users = users;
-        this.id = generateGroupId();
-        messages = new ArrayList<>();
-        Message defaultMessage = new Message("Hello, This is anonymous... ", new User("0"), this, false);
-        messages.add(defaultMessage);
-    }
-
-    private int generateGroupId(){
-        groupIdCounter++;
-        return groupIdCounter;
-    }
-
-    public List<User> getUsers() {
-        return users;
-    }
-
-    public String getName(){
-        return this.name;
+        this.userIds = userIds;
     }
 
     public int getId() {
-        return this.id;
+        return id;
     }
+
+    public void setId(){
+        groupIdCounter++;
+        id = groupIdCounter;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public List<String> getUserIds() {
+        return userIds;
+    }
+
+    public void setUserId(List<String> userIds) {
+        this.userIds = userIds;
+    }
+
 
 }

@@ -50,13 +50,15 @@ public class GroupsActivity extends AppCompatActivity {
         groupsNumber = 0;
 
         // TODO:       String userPhoneNumber = getIntent().getStringExtra("PHONE_NUMBER");
-        String userPhoneNumber = "2";
+        String userPhoneNumber = "1";
         currentUser = new User(userPhoneNumber);
 
-//        groups = RestHandler.pullGroups(userPhoneNumber);
-//        messages = RestHandler.pullMessages(userPhoneNumber);
+        this.groupsItems = new ArrayList<>();
 
-        /*groupToMessages = new HashMap<>();
+        /**groups = RestHandler.pullGroups(userPhoneNumber);
+        messages = RestHandler.pullMessages(userPhoneNumber);
+
+        groupToMessages = new HashMap<>();
         for (Message message : messages) {
             String groupName = message.getGroup().getName();
             if (!groupToMessages.containsKey(groupName)) {
@@ -68,8 +70,7 @@ public class GroupsActivity extends AppCompatActivity {
             }
         }*/
 
-        this.groupsItems = new ArrayList<>();
-        /**for (Group group : groups) {
+        /*for (Group group : groups) {
             int messagesListSize = this.groupToMessages.get(group.getName()).size();
             String lastMessage;
             if (messagesListSize > 0){
@@ -80,8 +81,8 @@ public class GroupsActivity extends AppCompatActivity {
             }
             GroupItem item = new GroupItem(R.drawable.ic_android, group.getName(), lastMessage);
             this.groupsItems.add(item);
-        }*/
-
+        }
+*/
         // TODO selects group from DB and add/update them to the groupItem array list
         this.recyclerView = (RecyclerView) findViewById(R.id.GroupsRecyclerView);
         this.recyclerView.setHasFixedSize(true);
@@ -93,7 +94,6 @@ public class GroupsActivity extends AppCompatActivity {
         adapter.setOnItemClickListener(new GroupListAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(int position) {
-
                 groupsItems.get(position).changeText("For example");
                 adapter.notifyItemChanged(position);
 
@@ -101,12 +101,16 @@ public class GroupsActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * This method will be envoked when user clicks on the add group button.
+     */
     public void addGroup(View view){
 
         Intent intent = new Intent(this, CreateGroup.class);
+        intent.putExtra("PHONE_NUMBER", currentUser.getUserId());
         startActivity(intent);
 
-        this.groupsNumber += 1;
+        /**this.groupsNumber += 1;
         String groupName = "Group" + this.groupsNumber;
         // TODO:  RestHandler.createGroup();
         GroupItem item = new GroupItem(R.drawable.ic_android, "Group" + this.groupsNumber,
@@ -114,6 +118,6 @@ public class GroupsActivity extends AppCompatActivity {
         groupsItems.add(item);
 //        this.adapter.updateGroupItems(item);
         this.recyclerView.setAdapter(this.adapter);
-        this.recyclerView.setLayoutManager(this.layoutManager);
+        this.recyclerView.setLayoutManager(this.layoutManager);*/
     }
 }

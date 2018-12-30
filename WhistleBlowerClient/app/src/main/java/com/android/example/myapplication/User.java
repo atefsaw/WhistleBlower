@@ -8,22 +8,22 @@ public class User {
 
     private String userId;
     private List<Message> messagesToPull;
+
+
     private List<Group> groupsToPull;
 
+    public User() {
+    }
+
     public User(String userId) {
+        this.messagesToPull = new ArrayList<>();
+        this.groupsToPull = new ArrayList<>();
         this.userId = userId;
     }
+
 
     public void addMessage(Message message){
         messagesToPull.add(message);
-    }
-
-    public String getUserId() {
-        return userId;
-    }
-
-    public void setUserId(String userId) {
-        this.userId = userId;
     }
 
     public List<Message> pullMessages(){
@@ -42,7 +42,13 @@ public class User {
         return groupList;
     }
 
+    public String getUserId() {
+        return userId;
+    }
 
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
 
 
 }

@@ -21,7 +21,7 @@ public class SignupActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-                WindowManager.LayoutParams.FLAG_FULLSCREEN);
+                             WindowManager.LayoutParams.FLAG_FULLSCREEN);
         getSupportActionBar().hide();
         setContentView(R.layout.introduction_signup);
     }
@@ -33,12 +33,12 @@ public class SignupActivity extends AppCompatActivity {
             userPhoneNumber = String.valueOf(mEdit.getText());
         }
 
-//        User newUser = new User(userPhoneNumber);
-//        try {
-//            RestHandler.createUser(newUser);
-//        } catch (JsonProcessingException e) {
-//            e.printStackTrace();
-//        }
+        User newUser = new User(userPhoneNumber);
+        try {
+            RestHandler.createUser(newUser);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
 
         Intent intent = new Intent(this, GroupsActivity.class);
         intent.putExtra("PHONE_NUMBER", userPhoneNumber);
