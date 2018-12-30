@@ -47,7 +47,7 @@ public class BusinessLogic {
     public void createGroup(Group group) {
         group.setId();
         groups.add(group);
-        users.forEach(user -> addGroupToUser(group, user));
+        group.getUserIds().forEach(user -> addGroupToUser(group, user));
         createDefaultMessage(group);
     }
 
@@ -60,8 +60,9 @@ public class BusinessLogic {
         }
     }
 
-    private void addGroupToUser(Group group, User user) {
-        user.addGroup(group);
+    private void addGroupToUser(Group group, String userId) {
+        Optional<User> user = users.stream().filter(currUser -> currUser.getUserId().equals(userId)).findAny();
+        user.ifPresent(currUser -> currUser.addGroup(group));
     }
 
     public List<Group> pullGroupsForUser(String userId) {
