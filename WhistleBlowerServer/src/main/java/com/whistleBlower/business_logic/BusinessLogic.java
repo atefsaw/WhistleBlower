@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Component
 @Scope(value = ConfigurableBeanFactory.SCOPE_SINGLETON)
@@ -25,7 +26,7 @@ public class BusinessLogic {
         createDefaultGroup();
     }
 
-    private void createDefaultGroup(){
+    private void createDefaultGroup() {
         User user1 = new User("1");
         User user2 = new User("2");
         users.add(user1);
@@ -36,72 +37,95 @@ public class BusinessLogic {
         createGroup(new Group(userIdsList, "First"));
     }
 
-    public void createUser(User newUser){
+    public void createUser(User newUser) {
         boolean userNotExist = users.stream().noneMatch(user -> user.getUserId().equals(newUser.getUserId()));
-        if (userNotExist){
+        if (userNotExist) {
             users.add(newUser);
         }
     }
 
-    public void createGroup(Group group){
+    public void createGroup(Group group) {
         group.setId();
         groups.add(group);
         users.forEach(user -> addGroupToUser(group, user));
         createDefaultMessage(group);
     }
 
-    public void sendMessage(Message message){
+    public void sendMessage(Message message) {
         Optional<Group> group = groups.stream().filter(curr_group -> curr_group.getId() == message.getGroupId()).findAny();
-        if (group.isPresent()){
+        if (group.isPresent()) {
             List<String> users = group.get().getUserIds();
             users.stream().filter(userId -> !getUserById(userId).getUserId().equals(message.getSender().getUserId())).forEach(userId -> sendMessageToUser(getUserById(userId), message));
+            group.get().setLastMessage(message);
         }
     }
 
-    private void addGroupToUser(Group group, User user){
+    private void addGroupToUser(Group group, User user) {
         user.addGroup(group);
     }
 
-    public List<Group> pullGroupsForUser(String userId){
+    public List<Group> pullGroupsForUser(String userId) {
         Optional<User> user = users.stream().filter(curr_user -> curr_user.getUserId().equals(userId)).findAny();
-        if (user.isPresent()){
+        if (user.isPresent()) {
             return user.get().pullGroups();
         } else {
             return new ArrayList<>();
         }
     }
 
-    private void sendMessageToUser(User user, Message message){
+    private void sendMessageToUser(User user, Message message) {
         user.addMessage(message);
     }
 
-    public List<Message> pullMessagesForUser(String userId){
+    private void createDefaultMessage(Group group) {
+        Message defaultMessage = new Message("Hello, This is anonymous... ", new User("0"), group.getId(), false);
+        group.getUserIds().forEach(user -> getUserById(user).addMessage(defaultMessage));
+        group.setLastMessage(defaultMessage);
+    }
+
+
+    private User getUserById(String userId) {
+        return users.stream().filter(user -> user.getUserId().equals(userId)).findAny().orElse(null);
+    }
+
+    public List<User> getUsers() {
+        return users;
+    }
+
+    public List<Group> getGroups() {
+        return groups;
+    }
+
+    public List<Message> pullMessagesForGroup(int groupId, String userId) {
         Optional<User> user = users.stream().filter(curr_user -> curr_user.getUserId().equals(userId)).findAny();
-        if (user.isPresent()){
-            return user.get().pullMessages();
+        if (user.isPresent()) {
+            List<Message> groupMessages = user.get()
+                    .pullMessages()
+                    .stream()
+                    .filter(message -> message.getGroupId() == groupId)
+                    .collect(Collectors.toList());
+            user.get().pullMessages().removeIf(message -> message.getGroupId() == groupId);
+            return groupMessages;
         } else {
             return new ArrayList<>();
         }
     }
 
-
-    private void createDefaultMessage(Group group){
-        Message defaultMessage = new Message("Hello, This is anonymous... ", new User("0"), group.getId(), false);
-        group.getUserIds().forEach(user -> getUserById(user).addMessage(defaultMessage));
+    public List<Message> pullLastMessagesForUser(String userId) {
+        Optional<User> user = users.stream().filter(curr_user -> curr_user.getUserId().equals(userId)).findAny();
+        if (user.isPresent()) {
+            List<Message> groupsLastMessages = groups.stream()
+                    .filter(group -> group.getUserIds().contains(userId))
+                    .collect(Collectors.toList())
+                    .stream()
+                    .map(Group::getLastMessage)
+                    .collect(Collectors.toList());
+            return groupsLastMessages;
+        } else {
+            return new ArrayList<>();
+        }
     }
 
-
-    private User getUserById(String userId){
-        return users.stream().filter(user -> user.getUserId().equals(userId)).findAny().orElse(null);
-    }
-
-    public List<User> getUsers(){
-        return users;
-    }
-
-    public List<Group> getGroups(){
-        return groups;
-    }
 
 
 

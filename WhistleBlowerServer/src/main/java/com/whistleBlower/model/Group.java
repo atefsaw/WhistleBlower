@@ -7,7 +7,9 @@ public class Group {
     private int id;
     private String name;
     private List<String> userIds;
+    private Message lastMessage;
     private static int groupIdCounter = 0;
+
 
     public Group() {
     }
@@ -42,5 +44,12 @@ public class Group {
         this.userIds = userIds;
     }
 
+    public Message getLastMessage() {
+        return lastMessage;
+    }
+
+    public void setLastMessage(Message lastMessage) {
+        this.lastMessage = lastMessage;
+    }
 
 }
