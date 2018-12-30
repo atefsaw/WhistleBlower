@@ -99,12 +99,11 @@ public class BusinessLogic {
     public List<Message> pullMessagesForGroup(int groupId, String userId) {
         Optional<User> user = users.stream().filter(curr_user -> curr_user.getUserId().equals(userId)).findAny();
         if (user.isPresent()) {
-            List<Message> groupMessages = user.get()
-                    .pullMessages()
-                    .stream()
+            List<Message> userMessages = user.get().pullMessages();
+            List<Message> groupMessages = userMessages.stream()
                     .filter(message -> message.getGroupId() == groupId)
                     .collect(Collectors.toList());
-            user.get().pullMessages().removeIf(message -> message.getGroupId() == groupId);
+            userMessages.removeIf(message -> message.getGroupId() == groupId);
             return groupMessages;
         } else {
             return new ArrayList<>();
