@@ -16,40 +16,54 @@ import java.util.Optional;
 
 public class BusinessLogic {
 
-    private List<Message> messages;
     private List<Group> groups;
     private List<User> users;
 
     public BusinessLogic() {
-        messages = new ArrayList<>();
         groups = new ArrayList<>();
         users = new ArrayList<>();
+        createDefaultGroup();
     }
 
-    public User createUser(){
-        User user = new User();
-        users.add(user);
-        return user;
+    private void createDefaultGroup(){
+        User user1 = new User("1");
+        User user2 = new User("2");
+        users.add(user1);
+        users.add(user2);
+        List<String> userIdsList = new ArrayList<>();
+        userIdsList.add("1");
+        userIdsList.add("2");
+        createGroup(new Group(userIdsList, "First"));
+    }
+
+    public void createUser(User newUser){
+        boolean userNotExist = users.stream().noneMatch(user -> user.getUserId().equals(newUser.getUserId()));
+        if (userNotExist){
+            users.add(newUser);
+        }
     }
 
     public void createGroup(Group group){
+        group.setId();
         groups.add(group);
         users.forEach(user -> addGroupToUser(group, user));
+        createDefaultMessage(group);
     }
 
     public void sendMessage(Message message){
-        messages.add(message);
-        Group group = message.getGroup();
-        List<User> users = group.getUsers();
-        users.forEach(user -> sendMessageToUser(user, message));
+        Optional<Group> group = groups.stream().filter(curr_group -> curr_group.getId() == message.getGroupId()).findAny();
+        if (group.isPresent()){
+            List<String> users = group.get().getUserIds();
+            users.stream().filter(userId -> !getUserById(userId).getUserId().equals(message.getSender().getUserId())).forEach(userId -> sendMessageToUser(getUserById(userId), message));
+        }
     }
 
     private void addGroupToUser(Group group, User user){
         user.addGroup(group);
     }
 
-    public List<Group> pullGroupsForUser(int userId){
-        Optional<User> user = users.stream().filter(curr_user -> curr_user.getUserId() == userId).findAny();
+    public List<Group> pullGroupsForUser(String userId){
+        Optional<User> user = users.stream().filter(curr_user -> curr_user.getUserId().equals(userId)).findAny();
         if (user.isPresent()){
             return user.get().pullGroups();
         } else {
@@ -61,8 +75,8 @@ public class BusinessLogic {
         user.addMessage(message);
     }
 
-    public List<Message> pullMessagesForUser(int userId){
-        Optional<User> user = users.stream().filter(curr_user -> curr_user.getUserId() == userId).findAny();
+    public List<Message> pullMessagesForUser(String userId){
+        Optional<User> user = users.stream().filter(curr_user -> curr_user.getUserId().equals(userId)).findAny();
         if (user.isPresent()){
             return user.get().pullMessages();
         } else {
@@ -71,4 +85,24 @@ public class BusinessLogic {
     }
 
 
+    private void createDefaultMessage(Group group){
+        Message defaultMessage = new Message("Hello, This is anonymous... ", new User("0"), group.getId(), false);
+        group.getUserIds().forEach(user -> getUserById(user).addMessage(defaultMessage));
     }
+
+
+    private User getUserById(String userId){
+        return users.stream().filter(user -> user.getUserId().equals(userId)).findAny().orElse(null);
+    }
+
+    public List<User> getUsers(){
+        return users;
+    }
+
+    public List<Group> getGroups(){
+        return groups;
+    }
+
+
+
+}

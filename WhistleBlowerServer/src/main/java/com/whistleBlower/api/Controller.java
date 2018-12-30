@@ -2,10 +2,7 @@ package com.whistleBlower.api;
 
 import com.whistleBlower.business_logic.BusinessLogic;
 import com.whistleBlower.model.*;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -18,35 +15,44 @@ public class Controller {
         this.businessLogic = businessLogic;
     }
 
-
     @GetMapping("/")
     public String test() {
         return "Hello World!";
     }
 
-    @GetMapping("/createUser")
-    public User createUser(){
-        return businessLogic.createUser();
+    @PostMapping("/createUser")
+    public void createUser(@RequestBody User user){
+        businessLogic.createUser(user);
     }
 
     @PostMapping("/createGroup")
-    public void createGroup(Group group){
+    public void createGroup(@RequestBody Group group){
         businessLogic.createGroup(group);
     }
 
     @PostMapping("/sendMessage")
-    public void sendMessage(Message message){
+    public void sendMessage(@RequestBody Message message){
         businessLogic.sendMessage(message);
     }
 
     @GetMapping("/pullMessages/{phoneNumber}")
-    public MessageListWrapper pullMessages(@PathVariable int userId){
-        return new MessageListWrapper(businessLogic.pullMessagesForUser(userId));
+    public List<Message> pullMessages(@PathVariable String phoneNumber){
+        return businessLogic.pullMessagesForUser(phoneNumber);
     }
 
     @GetMapping("/pullGroups/{phoneNumber}")
-    public GroupListWrapper pullGroups(@PathVariable int userId){
-        return new GroupListWrapper(businessLogic.pullGroupsForUser(userId));
+    public List<Group> pullGroups(@PathVariable String phoneNumber){
+        return businessLogic.pullGroupsForUser(phoneNumber);
+    }
+
+    @GetMapping("/getUsers")
+    public List<User> getUsers() {
+        return businessLogic.getUsers();
+    }
+
+    @GetMapping("/getGroups")
+    public List<Group> getGroups() {
+        return businessLogic.getGroups();
     }
 
 
