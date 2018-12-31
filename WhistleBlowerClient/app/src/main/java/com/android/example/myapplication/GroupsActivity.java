@@ -58,7 +58,7 @@ public class GroupsActivity extends AppCompatActivity {
     
         groupsNumber = 0;
     
-        String userPhoneNumber = getIntent().getStringExtra("PHONE_NUMBER");
+        String userPhoneNumber = getIntent().getStringExtra(getString(R.string.phoneNumberIntentKey));
         currentUser = new User(userPhoneNumber);
     
         this.groupsItems = new ArrayList<>();

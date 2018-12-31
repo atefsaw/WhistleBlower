@@ -8,4 +8,8 @@
     <string name="groupNameIntentKey">GROUP_NAME</string>
     <string name="groupMessagesIntentKey">GROUP_MESSAGES</string>
     <string name="application_user_id">0</string>
+    <string name="choose_contacts_in_actionbar">Choose contacts...</string>
+    <string name="insert_group_name_error_message">Insert group name</string>
+    <string name="add_contacts_error_message">Add at least one contact you your group</string>
+    <string name="groupMembersIntentKey">GROUP_MEMBERS</string>
 </resources>

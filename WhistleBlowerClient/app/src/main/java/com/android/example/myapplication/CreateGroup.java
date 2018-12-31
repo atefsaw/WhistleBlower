@@ -37,33 +37,34 @@ public class CreateGroup extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_group2);
         this.contactNameToNumber = new HashMap<>();
-        this.setTitle("Choose contacts...");
+        this.setTitle(R.string.choose_contacts_in_actionbar);
         actionBar = getSupportActionBar();
-        actionBar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#2F4F4F")));
+        actionBar.setBackgroundDrawable(new ColorDrawable(Color.parseColor(getString(R.string.action_bar_color))));
 
-        userPhoneNumber = getIntent().getStringExtra("PHONE_NUMBER");
+        userPhoneNumber = getIntent().getStringExtra(getString(R.string.phoneNumberIntentKey));
 
         contactsListView = (ListView) findViewById(R.id.contacts_listview);
-        ArrayList<String> contacts =getContacts();
+        ArrayList<String> contacts = getContacts();
         final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(
                                                            this,
                                                                   android.R.layout.simple_list_item_1,
                                                                   contacts );
         contactsListView.setAdapter(arrayAdapter);
-
-
         contactsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Object o = contactsListView.getItemAtPosition(position);
                 // TODO: Change color of item when been selected
-                String name = (String )o; //As you are using Default String Adapter
+                String name = (String ) o; //As you are using Default String Adapter
                 Toast.makeText(getBaseContext(), name, Toast.LENGTH_SHORT).show();
                 selectedGroupMemebers.add(name);
             }
         });
     }
 
+    /**
+     * This method gets a list of contact numbers from the users phone.
+     */
     public ArrayList<String> getContacts() {
         ArrayList<String> contacts = new ArrayList<>();
         Cursor phones = getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null,null,null, null);
@@ -82,16 +83,16 @@ public class CreateGroup extends AppCompatActivity {
      * This method will be invoked when we finish creating the group.
      */
     public void createGroup(View view) {
-
         // Get the new group name that must be created.
         EditText groupNameInputBox = (EditText) findViewById(R.id.group_name);
         String groupName = null;
+
         // Check if user inserted a group name
         if (!groupNameInputBox.getText().toString().equals("")) {
             groupName = groupNameInputBox.getText().toString();
         }
         else {
-            Toast.makeText(getBaseContext(), "Insert group name", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getBaseContext(), getString(R.string.insert_group_name_error_message), Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -103,20 +104,20 @@ public class CreateGroup extends AppCompatActivity {
 
         // Check if user selected at least one user
         if (numbers.size() < 2) {
-            Toast.makeText(getBaseContext(), "Add at least one contact you your group", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getBaseContext(), getString(R.string.add_contacts_error_message), Toast.LENGTH_SHORT).show();
             return;
         }
+
+        // TODO: check if this code can be moved to onDestroy()
         // Set the intent that will be sent to the ChatAcitvity
         Intent intent = new Intent(this, ChatActivity.class);
-        intent.putExtra("GROUP_NAME", groupName);
-        intent.putExtra("PHONE_NUMBER", userPhoneNumber);
-        intent.putStringArrayListExtra("GROUP_MEMBERS", numbers);
+        intent.putExtra(getString(R.string.groupNameIntentKey), groupName);
+        intent.putExtra(getString(R.string.phoneNumberIntentKey), userPhoneNumber);
+        intent.putStringArrayListExtra(getString(R.string.groupMembersIntentKey), numbers);
 
         Group newGroup = new Group(numbers, groupName);
-
         RestHandler.createGroup(newGroup);
 
-//        startActivity(intent);
         setResult(RESULT_OK, intent);
         finish(); // This will kill the CreateActivity activity and will prevent access to it
                  // via the 'Back' button.
