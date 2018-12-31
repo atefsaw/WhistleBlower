@@ -140,7 +140,6 @@ public class GroupsActivity extends AppCompatActivity {
 
         timerHandler.postDelayed(timerRunnable, 0);*/
 
-
         // TODO selects group from DB and add/update them to the groupItem array list
         this.recyclerView = (RecyclerView) findViewById(R.id.GroupsRecyclerView);
         this.recyclerView.setHasFixedSize(true);
@@ -153,7 +152,6 @@ public class GroupsActivity extends AppCompatActivity {
         adapter.setOnItemClickListener(new GroupListAdapter.OnItemClickListener() {
             /**
              * This method is called when we click on a group item.
-             * @param position
              */
             @Override
             public void onItemClick(int position) {

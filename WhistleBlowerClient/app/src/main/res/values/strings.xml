@@ -4,4 +4,8 @@
     <string name="enter_phone_number_hint">Please Enter you phone number...</string>
     <string name="signup_button_text">Sign up</string>
     <string name="action_bar_color">#2F4F4F</string>
+    <string name="groupIdIntentKey">GROUP_ID</string>
+    <string name="groupNameIntentKey">GROUP_NAME</string>
+    <string name="groupMessagesIntentKey">GROUP_MESSAGES</string>
+    <string name="application_user_id">0</string>
 </resources>

@@ -6,7 +6,6 @@ import android.os.Handler;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -18,28 +17,29 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class ChatActivity extends AppCompatActivity {
 
+/**
+ * This activity responsible on the chat page
+ */
+public class ChatActivity extends AppCompatActivity {
 
     private List<Message> messagesList;
     private EditText editText;
 
-    private int messageListIndex = 0;
-
     private MessageListAdapter messageAdapter;
     private ListView messagesView;
 
-
     private User currentUser;
     private Group currentGroup;
+    private String groupId;
 
     ActionBar actionBar;
 
-    private String groupId;
+    private final static int MESSAGE_POLLING_INTERVAL = 300;
 
-    private final static int INTERVAL = 500; // half-second
-
-
+    /**
+     * This method sends a message to the group.
+     */
     public void sendMessage(View view) {
         String textMessage = editText.getText().toString();
         if (textMessage.length() > 0) {
@@ -58,21 +58,20 @@ public class ChatActivity extends AppCompatActivity {
         setContentView(R.layout.activity_chat);
 
         actionBar = getSupportActionBar();
-        actionBar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#2F4F4F")));
-
+        actionBar.setBackgroundDrawable(new ColorDrawable(Color.parseColor(getString(R.string.action_bar_color))));
 
         // this is where the message text goes
         editText = (EditText) this.findViewById(R.id.edittext_chatbox);
 
         // Get Intents
-        String userPhoneNumber = getIntent().getStringExtra("PHONE_NUMBER");
-        this.groupId = getIntent().getStringExtra("GROUP_ID");
-        String groupName = getIntent().getStringExtra("GROUP_NAME");
-        ArrayList<String> messages = getIntent().getStringArrayListExtra("GROUP_MESSAGES");
+        String userPhoneNumber = getIntent().getStringExtra(getString(R.string.phoneNumberIntentKey));
+        this.groupId = getIntent().getStringExtra(getString(R.string.groupIdIntentKey));
+        String groupName = getIntent().getStringExtra(getString(R.string.groupNameIntentKey));
+        ArrayList<String> messages = getIntent().getStringArrayListExtra(getString(R.string.groupMessagesIntentKey));
 
         // Set the group
         currentUser = new User(userPhoneNumber);
-        User applicationAdmin = new User("0");
+        User applicationAdmin = new User(getString(R.string.application_user_id));
         ArrayList<User> users = new ArrayList<>();
         users.add(currentUser);
         users.add(applicationAdmin);
@@ -99,20 +98,15 @@ public class ChatActivity extends AppCompatActivity {
                     messageAdapter.add(receievedMessage);
                     messagesView.setSelection(messagesView.getCount() - 1);
                 }
-                timerHandler.postDelayed(this, 300);
+                timerHandler.postDelayed(this, MESSAGE_POLLING_INTERVAL);
             }
         };
-
         timerHandler.postDelayed(timerRunnable, 0);
-        /*
-        final Message welcomeMessage = new Message("This is a welcome message", currentUser, currentGroup.getId(), false );
-        messageAdapter.add(welcomeMessage);
-        messagesView.setSelection(messagesView.getCount() - 1);*/
-
-//        Timer myTimer = new Timer("GetMessagesTimer", true);
-//        myTimer.scheduleAtFixedRate(new GetMessagesTask(), INTERVAL, INTERVAL);
     }
 
+    /**
+     * this is a thread task that responsible for polling the messages from the server.
+     */
     private class GetMessagesTask extends TimerTask {
 
         public void run() {
@@ -127,7 +121,6 @@ public class ChatActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-//        GroupsActivity.LastMessagesHandler.postDelayed(GroupsActivity.lastMessageRunnable, 0);
         GroupsActivity.timerHandler.postDelayed(GroupsActivity.timerRunnable, 0);
     }
 
