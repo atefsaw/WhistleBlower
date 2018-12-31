@@ -58,7 +58,7 @@ public class ChatActivity extends AppCompatActivity {
         setContentView(R.layout.activity_chat);
 
         actionBar = getSupportActionBar();
-        actionBar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#00CED1")));
+        actionBar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#2F4F4F")));
 
 
         // this is where the message text goes

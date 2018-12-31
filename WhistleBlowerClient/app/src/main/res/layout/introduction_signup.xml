@@ -28,41 +28,20 @@
             <EditText android:id="@+id/input_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Phone Number" />
+                android:hint="@string/enter_phone_number_hint" />
         </android.support.design.widget.TextInputLayout>
 
 
-        <!-- Password Label -->
-        <!--<android.support.design.widget.TextInputLayout-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_marginTop="8dp"-->
-            <!--android:layout_marginBottom="8dp">-->
-            <!--<EditText android:id="@+id/input_password"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:inputType="textPassword"-->
-                <!--android:hint="Password"/>-->
-        <!--</android.support.design.widget.TextInputLayout>-->
-
         <!-- Signup Button -->
         <android.support.v7.widget.AppCompatButton
-            android:id="@+id/btn_signup"
+            android:id="@+id/signupButton"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
             android:layout_marginBottom="24dp"
             android:padding="12dp"
-            android:text="Sign up"
+            android:text="@string/signup_button_text"
             android:onClick="signUpUser"/>
-
-        <!--<TextView android:id="@+id/link_login"-->
-            <!--android:layout_width="fill_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_marginBottom="24dp"-->
-            <!--android:text="First time? click here to register!"-->
-            <!--android:gravity="center"-->
-            <!--android:textSize="16dip"/>-->
 
     </LinearLayout>
 </ScrollView>

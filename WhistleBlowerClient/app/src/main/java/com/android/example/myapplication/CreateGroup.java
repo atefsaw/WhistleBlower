@@ -39,16 +39,16 @@ public class CreateGroup extends AppCompatActivity {
         this.contactNameToNumber = new HashMap<>();
         this.setTitle("Choose contacts...");
         actionBar = getSupportActionBar();
-        actionBar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#00CED1")));
+        actionBar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#2F4F4F")));
 
         userPhoneNumber = getIntent().getStringExtra("PHONE_NUMBER");
 
         contactsListView = (ListView) findViewById(R.id.contacts_listview);
         ArrayList<String> contacts =getContacts();
         final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(
-                this,
-                android.R.layout.simple_list_item_1,
-                contacts );
+                                                           this,
+                                                                  android.R.layout.simple_list_item_1,
+                                                                  contacts );
         contactsListView.setAdapter(arrayAdapter);
 
 
@@ -116,7 +116,8 @@ public class CreateGroup extends AppCompatActivity {
 
         RestHandler.createGroup(newGroup);
 
-        startActivity(intent);
+//        startActivity(intent);
+        setResult(RESULT_OK, intent);
         finish(); // This will kill the CreateActivity activity and will prevent access to it
                  // via the 'Back' button.
     }

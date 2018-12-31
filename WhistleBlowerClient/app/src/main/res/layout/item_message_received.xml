@@ -12,7 +12,7 @@
         android:id="@+id/image_message_profile"
         android:layout_width="32dp"
         android:layout_height="32dp"
-        android:background="@drawable/circle"
+        android:background="@drawable/annonymous_sender"
         app:layout_constraintTop_toTopOf="parent"
         android:layout_marginLeft="8dp"
         app:layout_constraintLeft_toLeftOf="parent" />
@@ -27,7 +27,7 @@
         android:maxWidth="240dp"
         android:padding="8dp"
         android:text="Message Replacement"
-        android:textColor="#ffffff"
+        android:textColor="#000000"
         app:layout_constraintLeft_toRightOf="@+id/image_message_profile"
         app:layout_constraintTop_toTopOf="parent" />
 

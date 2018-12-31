@@ -66,6 +66,13 @@ public class Message {
         c.setTimeInMillis(millis);
         int hours = c.get(Calendar.HOUR_OF_DAY);
         int minutes = c.get(Calendar.MINUTE);
-        return String.format("%d:%d", hours, minutes);
+        String minutesFormat;
+        if (minutes < 10) {
+            minutesFormat = "0" + minutes;
+        }
+        else {
+            minutesFormat = String.valueOf(minutes);
+        }
+        return String.format("%d:%s", hours, minutesFormat);
     }
 }
