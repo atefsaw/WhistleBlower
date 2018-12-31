@@ -1,8 +1,5 @@
 package com.android.example.myapplication;
 
-import android.content.Intent;
-import android.widget.ImageButton;
-
 public class GroupItem {
     private int imageResource;
     private String groupName;

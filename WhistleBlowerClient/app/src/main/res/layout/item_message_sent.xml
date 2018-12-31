@@ -14,7 +14,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
         android:layout_marginRight="8dp"
-        android:background="@drawable/rounded_rectangle_blue"
+        android:background="@drawable/sent_message_rectangle"
         android:maxWidth="240dp"
         android:padding="8dp"
         android:text="Text Replacement"

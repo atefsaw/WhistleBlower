@@ -18,47 +18,47 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-/**
- * This activity is responsible on handling the groups in the application.
- */
 public class GroupsActivity extends AppCompatActivity {
-
     private RecyclerView recyclerView;
     private GroupListAdapter adapter; // the bridge between the list of the groups and the Recycler view
     private RecyclerView.LayoutManager layoutManager; // for aligning group's items in our list (creates the list view)
-
-    ArrayList<GroupItem> groupsItems; // the group items that will be seen in the groups list
-    int groupsNumber;  // the number of groups in the application
-
-    User currentUser; // the user who signed up and will use the application
-
-    List<Group> allGroups = new ArrayList<>();  // all the groups objects in the application
-    List<Group> groups;
-
-    public static Handler timerHandler;
-    public static Runnable timerRunnable;
-    private final static int GROUP_POLLING_INTERVAL = 500; // This interval sets the time for group polling thread
-
-    private final static int CREATE_GROUP_REQUEST = 1;
-
-    /**
-    List<Message> lastGroupSeenMessages;*/
-    Map<String, List<Message>> groupToMessages;
+    ArrayList<GroupItem> groupsItems;
+    int groupsNumber;
+    private ImageButton addButton;
 
     ActionBar actionBar;
 
+    List<Group> allGroups = new ArrayList<>();
+
+    List<Group> groups;
+    List<Message> lastGroupSeenMessages;
+
+    Map<String, List<Message>> groupToMessages;
+
+    User currentUser;
+
+    private final static int INTERVAL = 500; // half-second
+
+    public static Handler timerHandler;
+    public static Runnable timerRunnable;
+
+//    public static Handler LastMessagesHandler;
+//    public static Runnable lastMessageRunnable;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
+//        Toast.makeText(this, "This is GroupsActivity OnCreate", Toast.LENGTH_SHORT).show();
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_groups);
-
+    
         actionBar = getSupportActionBar();
-        actionBar.setBackgroundDrawable(new ColorDrawable(Color.parseColor(getString(R.string.action_bar_color))));
+        actionBar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#2F4F4F")));
     
         groupsNumber = 0;
     
-        String userPhoneNumber = getIntent().getStringExtra(getString(R.string.phoneNumberIntentKey));
+         String userPhoneNumber = getIntent().getStringExtra("PHONE_NUMBER");
+//        String userPhoneNumber = "2";
         currentUser = new User(userPhoneNumber);
     
         this.groupsItems = new ArrayList<>();
@@ -98,15 +98,16 @@ public class GroupsActivity extends AppCompatActivity {
 //            groupsItems.add(item);
 //        }
 
-        timerHandler = new Handler();
-        timerRunnable = new Runnable() {
-            @Override
-            public void run() {
-                long millis = System.currentTimeMillis();
-                groups = RestHandler.pullGroups(currentUser.getUserId());
-                allGroups.addAll(groups); // add the new groups to all groups
-//                   lastGroupSeenMessages = RestHandler.pullLastGroupMessages(currentUser.getUserId());
-                for (Group group : groups) {
+
+            timerHandler = new Handler();
+            timerRunnable = new Runnable() {
+                @Override
+                public void run() {
+                    long millis = System.currentTimeMillis();
+                    groups = RestHandler.pullGroups(currentUser.getUserId());
+                    allGroups.addAll(groups); // add the new groups to all groups
+//                    lastGroupSeenMessages = RestHandler.pullLastGroupMessages(currentUser.getUserId());
+                    for (Group group : groups) {
                         String groupName = group.getName();
 //                        String lastSeenMessage = getLastSeenMessageForGroup(lastGroupSeenMessages, group.getId());
                         String lastSeenMessage = "";
@@ -116,13 +117,12 @@ public class GroupsActivity extends AppCompatActivity {
 //                        adapter.updateGroupItems(item);
                         recyclerView.setAdapter(adapter);
                         recyclerView.setLayoutManager(layoutManager);
+                    }
+                    timerHandler.postDelayed(this, 500);
                 }
+            };
 
-                timerHandler.postDelayed(this, GROUP_POLLING_INTERVAL);
-                }
-        };
-
-        timerHandler.postDelayed(timerRunnable, 0); // Run the above polling thread immediately
+            timerHandler.postDelayed(timerRunnable, 0);
 
         /*LastMessagesHandler = new Handler();
         lastMessageRunnable = new Runnable() {
@@ -140,49 +140,70 @@ public class GroupsActivity extends AppCompatActivity {
 
         timerHandler.postDelayed(timerRunnable, 0);*/
 
-        // TODO selects group from DB and add/update them to the groupItem array list
-        this.recyclerView = (RecyclerView) findViewById(R.id.GroupsRecyclerView);
-        this.recyclerView.setHasFixedSize(true);
-        this.layoutManager = new LinearLayoutManager(this);
-        this.adapter = new GroupListAdapter(groupsItems, userPhoneNumber, groupToMessages);
-        this.recyclerView.setAdapter(this.adapter);
-        this.recyclerView.setLayoutManager(this.layoutManager);
+
+            // TODO selects group from DB and add/update them to the groupItem array list
+            this.recyclerView = (RecyclerView) findViewById(R.id.GroupsRecyclerView);
+            this.recyclerView.setHasFixedSize(true);
+            this.layoutManager = new LinearLayoutManager(this);
+            this.adapter = new GroupListAdapter(groupsItems, userPhoneNumber, groupToMessages);
+            this.recyclerView.setAdapter(this.adapter);
+            this.recyclerView.setLayoutManager(this.layoutManager);
 
 
-        adapter.setOnItemClickListener(new GroupListAdapter.OnItemClickListener() {
-            /**
-             * This method is called when we click on a group item.
-             */
-            @Override
-            public void onItemClick(int position) {
-                adapter.notifyItemChanged(position);
+            adapter.setOnItemClickListener(new GroupListAdapter.OnItemClickListener() {
+                @Override
+                public void onItemClick(int position) {
+                    groupsItems.get(position).changeText("For example");
+                    adapter.notifyItemChanged(position);
+    
                 }
-        });
+            });
     }
 
 
-    /**
-     * This method will be called when we get back from 'CreateGroup' activity.
-     * @param data the Intent that was sent from 'CreateGroup'
-     */
+
     public void onActivityResult(int requestCode, int resultCode, Intent data){
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == CREATE_GROUP_REQUEST)
+        if (requestCode == 1)
         {
             if (resultCode == RESULT_OK)
             {
                 // TODO: for feature, check if there is more than one group created on the same second (by two different users)
-                Group createdGroup = RestHandler.pullGroups(data.getStringExtra(getString(R.string.phoneNumberIntentKey))).get(0);
+                Group createdGroup = RestHandler.pullGroups(data.getStringExtra("PHONE_NUMBER")).get(0);
                 allGroups.add(createdGroup);
                 String lastSeenMessage = "";
                 GroupItem item = new GroupItem(R.drawable.ic_android, createdGroup.getName(),
-                                               lastSeenMessage, createdGroup.getId());
+                        lastSeenMessage, createdGroup.getId());
                 groupsItems.add(item);
+//                        adapter.updateGroupItems(item);
                 recyclerView.setAdapter(adapter);
                 recyclerView.setLayoutManager(layoutManager);
                 timerHandler.postDelayed(timerRunnable, 0);
+
             }
         }
+    }
+
+
+    @Override
+    protected void onStart() {
+
+        super.onStart();
+        Toast.makeText(this, "This is GroupsActivity OnStart", Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    protected void onStop() {
+
+        super.onStop();
+//        Toast.makeText(this, "This is GroupsActivity OnStop", Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    protected void onDestroy() {
+
+        super.onDestroy();
+//        Toast.makeText(this, "This is GroupsActivity OnDestroy", Toast.LENGTH_LONG).show();
     }
 
 
@@ -209,10 +230,41 @@ public class GroupsActivity extends AppCompatActivity {
      * This method will be envoked when user clicks on the add group button.
      */
     public void addGroup(View view){
-        timerHandler.removeCallbacks(timerRunnable); // Stops the polling thread of getting groups
+
+        timerHandler.removeCallbacks(timerRunnable);
+//        LastMessagesHandler.removeCallbacks(lastMessageRunnable);
+
         Intent intent = new Intent(this, CreateGroup.class);
-        intent.putExtra(getString(R.string.phoneNumberIntentKey), currentUser.getUserId());
-        startActivityForResult(intent, CREATE_GROUP_REQUEST);
+        intent.putExtra("PHONE_NUMBER", currentUser.getUserId());
+//        startActivity(intent);
+        startActivityForResult(intent, 1);
+
+
+        /**this.groupsNumber += 1;
+        String groupName = "Group" + this.groupsNumber;
+        // TODO:  RestHandler.createGroup();
+        GroupItem item = new GroupItem(R.drawable.ic_android, "Group" + this.groupsNumber,
+                "Last message in group.");
+        groupsItems.add(item);
+//        this.adapter.updateGroupItems(item);
+        this.recyclerView.setAdapter(this.adapter);
+        this.recyclerView.setLayoutManager(this.layoutManager);*/
     }
 
+//    private class GetGroupsTask extends TimerTask {
+//
+//        public void run() {
+//            groups = RestHandler.pullGroups(currentUser.getUserId());
+//            for (Group receivedGroup : groups) {
+//                String groupName = receivedGroup.getName();
+//                GroupItem item = new GroupItem(R.drawable.ic_android, groupName,
+//                                "Last message in group.", receivedGroup.getId());
+//                groupsItems.add(item);
+//                // this.adapter.updateGroupItems(item);
+//                recyclerView.setAdapter(adapter);
+//                recyclerView.setLayoutManager(layoutManager);
+//            }
+//            lastGroupSeenMessages = RestHandler.pullLastGroupMessages(currentUser.getUserId());
+//        }
+//    }
 }

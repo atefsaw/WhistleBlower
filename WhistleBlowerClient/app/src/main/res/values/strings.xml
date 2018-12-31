@@ -12,4 +12,9 @@
     <string name="insert_group_name_error_message">Insert group name</string>
     <string name="add_contacts_error_message">Add at least one contact you your group</string>
     <string name="groupMembersIntentKey">GROUP_MEMBERS</string>
+    <string name="next_button_text">Next</string>
+    <string name="insert_group_name_hint_message">Insert your group name..</string>
+    <string name="group_name_text">NOT_USED</string>
+    <string name="item_received_message_replacement">ITEM_RECEIVED</string>
+    <string name="item_received_time">CONSTANT_TIME</string>
 </resources>

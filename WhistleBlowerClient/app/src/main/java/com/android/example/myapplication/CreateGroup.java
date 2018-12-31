@@ -16,12 +16,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Dictionary;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class CreateGroup extends AppCompatActivity {
@@ -32,38 +27,51 @@ public class CreateGroup extends AppCompatActivity {
     final ArrayList<String> selectedGroupMemebers = new ArrayList<>();
     String userPhoneNumber;
 
+    String groupName;
+    ArrayList<String> numbers;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_create_group2);
+        setContentView(R.layout.activity_create_group);
+
         this.contactNameToNumber = new HashMap<>();
-        this.setTitle(R.string.choose_contacts_in_actionbar);
+
         actionBar = getSupportActionBar();
         actionBar.setBackgroundDrawable(new ColorDrawable(Color.parseColor(getString(R.string.action_bar_color))));
+        this.setTitle(R.string.choose_contacts_in_actionbar);
 
         userPhoneNumber = getIntent().getStringExtra(getString(R.string.phoneNumberIntentKey));
-
         contactsListView = (ListView) findViewById(R.id.contacts_listview);
         ArrayList<String> contacts = getContacts();
         final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(
-                                                           this,
-                                                                  android.R.layout.simple_list_item_1,
-                                                                  contacts );
+                this,
+                android.R.layout.simple_list_item_1,
+                contacts );
         contactsListView.setAdapter(arrayAdapter);
         contactsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Object o = contactsListView.getItemAtPosition(position);
+                Object contactView = contactsListView.getItemAtPosition(position);
                 // TODO: Change color of item when been selected
-                String name = (String ) o; //As you are using Default String Adapter
+                String name = (String ) contactView; // As you are using Default String Adapter
                 Toast.makeText(getBaseContext(), name, Toast.LENGTH_SHORT).show();
                 selectedGroupMemebers.add(name);
             }
         });
+
     }
 
+
+    /**
+     * This method adds the newly created group to the layout
+     */
+    public void addGroupToLayout() {
+
+    }
     /**
      * This method gets a list of contact numbers from the users phone.
+     * TODO: needs to be cached in the signup activity as it's used on
      */
     public ArrayList<String> getContacts() {
         ArrayList<String> contacts = new ArrayList<>();
@@ -85,31 +93,14 @@ public class CreateGroup extends AppCompatActivity {
     public void createGroup(View view) {
         // Get the new group name that must be created.
         EditText groupNameInputBox = (EditText) findViewById(R.id.group_name);
-        String groupName = null;
+        groupName = null;
+        numbers = new ArrayList<>();
 
-        // Check if user inserted a group name
-        if (!groupNameInputBox.getText().toString().equals("")) {
-            groupName = groupNameInputBox.getText().toString();
-        }
-        else {
-            Toast.makeText(getBaseContext(), getString(R.string.insert_group_name_error_message), Toast.LENGTH_SHORT).show();
+
+        if (!getUserContactNumbers() || !getGroupName(groupNameInputBox.getText().toString())) {
             return;
         }
 
-        ArrayList<String> numbers = new ArrayList<>();
-        numbers.add(userPhoneNumber); // Add user own number to the group
-        for (String name : selectedGroupMemebers) {
-            numbers.add(this.contactNameToNumber.get(name));
-        }
-
-        // Check if user selected at least one user
-        if (numbers.size() < 2) {
-            Toast.makeText(getBaseContext(), getString(R.string.add_contacts_error_message), Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-        // TODO: check if this code can be moved to onDestroy()
-        // Set the intent that will be sent to the ChatAcitvity
         Intent intent = new Intent(this, ChatActivity.class);
         intent.putExtra(getString(R.string.groupNameIntentKey), groupName);
         intent.putExtra(getString(R.string.phoneNumberIntentKey), userPhoneNumber);
@@ -121,5 +112,29 @@ public class CreateGroup extends AppCompatActivity {
         setResult(RESULT_OK, intent);
         finish(); // This will kill the CreateActivity activity and will prevent access to it
                  // via the 'Back' button.
+    }
+
+    private boolean getUserContactNumbers() {
+        numbers.add(userPhoneNumber); // Add user own number to the group
+        for (String name : selectedGroupMemebers) {
+            numbers.add(this.contactNameToNumber.get(name));
+        }
+        // Check if user selected at least one user
+        if (numbers.size() < 2) {
+            Toast.makeText(getBaseContext(), getString(R.string.add_contacts_error_message), Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        return true;
+    }
+
+    private boolean getGroupName(String insertedName) {
+        if (!insertedName.equals("")) {
+            groupName = insertedName;
+        }
+        else {
+            Toast.makeText(getBaseContext(), getString(R.string.insert_group_name_error_message), Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        return true;
     }
 }
