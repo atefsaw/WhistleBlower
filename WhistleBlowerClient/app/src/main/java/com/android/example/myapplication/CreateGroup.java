@@ -112,7 +112,9 @@ public class CreateGroup extends AppCompatActivity {
         intent.putExtra("PHONE_NUMBER", userPhoneNumber);
         intent.putStringArrayListExtra("GROUP_MEMBERS", numbers);
 
-        // TODO: add Rest method to create group
+        Group newGroup = new Group(numbers, groupName);
+
+        RestHandler.createGroup(newGroup);
 
         startActivity(intent);
         finish(); // This will kill the CreateActivity activity and will prevent access to it

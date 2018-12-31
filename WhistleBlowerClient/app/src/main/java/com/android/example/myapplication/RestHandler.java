@@ -9,6 +9,8 @@ import com.google.gson.reflect.TypeToken;
 
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 import java.lang.reflect.Type;
@@ -24,20 +26,15 @@ public class RestHandler {
     public static void createUser(User user) throws JsonProcessingException {
         final String uri = "http://" + HOST_IP + ":8027/createUser";
         HttpHeaders headers = new HttpHeaders();
-        headers.add("content-type", "application/json");
+        headers.add("Content-Type", "application/json");
         final HttpEntity<User> request = new HttpEntity<>(user, headers);
         restTemplate = new RestTemplate();
-        final ObjectMapper objectMapper = new ObjectMapper();
-//        restTemplate.postForObject(uri, objectMapper.writeValueAsString(request), String.class);
-//        CreateUser createUserTask = new CreateUser();
-//        createUserTask.doInBackground(uri, objectMapper.writeValueAsString(request));
-
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
                 try  {
-                    restTemplate.postForObject(uri, objectMapper.writeValueAsString(request), String.class);
-                } catch (Exception e) {
+                    restTemplate.postForObject(uri, request, String.class);
+                } catch (RestClientException e) {
                     e.printStackTrace();
                 }
             }
@@ -49,7 +46,6 @@ public class RestHandler {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-//        new CreateUser().execute(uri, objectMapper.writeValueAsString(request));
 
     }
 
@@ -60,14 +56,13 @@ public class RestHandler {
         headers.add("Content-Type", "application/json");
         final HttpEntity<Group> request = new HttpEntity<>(group, headers);
         restTemplate = new RestTemplate();
-        final ObjectMapper objectMapper = new ObjectMapper();
 //        restTemplate.postForObject(uri, request, String.class);
 
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
                 try  {
-                    restTemplate.postForObject(uri, objectMapper.writeValueAsString(request), String.class);
+                    restTemplate.postForObject(uri, request, String.class);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -87,16 +82,32 @@ public class RestHandler {
         final String uri = "http://" + HOST_IP +  ":8027/sendMessage";
         HttpHeaders headers = new HttpHeaders();
         headers.add("Content-Type", "application/json");
-        HttpEntity<Message> request = new HttpEntity<>(message, headers);
+        final HttpEntity<Message> request = new HttpEntity<>(message, headers);
         restTemplate = new RestTemplate();
-        restTemplate.postForObject(uri, request, String.class);
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try  {
+                    restTemplate.postForObject(uri, request, String.class);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        thread.start();
+
+        try {
+            thread.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
 
-    public static List<Message> pullMessages(String userId){
-        final String uri = "http://" + HOST_IP + ":8027/pullMessages/" + userId;
-//        HttpHeaders headers = new HttpHeaders();
-//        headers.add("Content-Type", "application/json");
+    public static List<Message> pullMessages(String userId, int groupId){
+        final String uri = "http://" + HOST_IP + ":8027/pullMessagesForGroup/" + groupId + "/" + userId;
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Content-Type", "application/json");
         restTemplate = new RestTemplate();
         final List<List<Message>> messages = new ArrayList<>();
         Thread thread = new Thread(new Runnable() {
@@ -156,18 +167,37 @@ public class RestHandler {
         return groups.get(0);
     }
 
-    private static class CreateUser extends AsyncTask<String, Integer, String> {
+    public static List<Message> pullLastGroupMessages(String userId){
+        final String uri = "http://" + HOST_IP + ":8027/pullLastMessages/" + userId;
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Content-Type", "application/json");
+        restTemplate = new RestTemplate();
+        final List<List<Message>> messages = new ArrayList<>();
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try  {
+                    String jsonOutput = restTemplate.getForObject(uri, String.class);
+                    Gson gson = new Gson();
+                    Type listType = new TypeToken<List<Message>>(){}.getType();
+                    messages.add((List) gson.fromJson(jsonOutput, listType));
+//                    User firstUser = groups.get(0).getUsers().get(0);
 
-        // This is run in a background thread
-        @Override
-        protected String doInBackground(String... params) {
-            // get the string from params, which is an array
-            String url = params[0];
-            String request = params[1];
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        thread.start();
 
-            restTemplate.postForObject(url, request, String.class);
-
-            return "Done";
+        try {
+            thread.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
+
+        return messages.get(0);
     }
+
+
 }

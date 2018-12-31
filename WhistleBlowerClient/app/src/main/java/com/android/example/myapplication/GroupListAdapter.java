@@ -20,6 +20,7 @@ public class GroupListAdapter extends RecyclerView.Adapter <GroupListAdapter.Gro
     private ArrayList<GroupItem> groupsItems;
     private OnItemClickListener mListener;
     static Map<String, List<Message>> currentgroupToMessages;
+    private int groupId;
 
     static String currentPhoneNumber;
 
@@ -35,6 +36,8 @@ public class GroupListAdapter extends RecyclerView.Adapter <GroupListAdapter.Gro
         public ImageView groupImage;
         public TextView groupName;
         public TextView groupLastMsg;
+        public TextView groupId;
+
 
         Context context;
 
@@ -43,7 +46,7 @@ public class GroupListAdapter extends RecyclerView.Adapter <GroupListAdapter.Gro
             groupImage = itemView.findViewById(R.id.groupImage);
             groupName = itemView.findViewById(R.id.groupName);
             groupLastMsg = itemView.findViewById(R.id.groupLastMessage);
-
+            groupId = itemView.findViewById(R.id.groupId);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -58,6 +61,7 @@ public class GroupListAdapter extends RecyclerView.Adapter <GroupListAdapter.Gro
 //                                messsagesList.add(message.getContent());
 //                            }
                             Intent intent = new Intent (v.getContext(), ChatActivity.class);
+                            intent.putExtra("GROUP_ID", groupId.getText());
                             intent.putExtra("GROUP_NAME", groupName.getText());
                             intent.putExtra("PHONE_NUMBER", currentPhoneNumber);
                             intent.putStringArrayListExtra("GROUP_MESSAGES", messsagesList);
@@ -90,6 +94,7 @@ public class GroupListAdapter extends RecyclerView.Adapter <GroupListAdapter.Gro
         holder.groupImage.setImageResource(currentItem.getImageResource());
         holder.groupName.setText(currentItem.getGroupName());
         holder.groupLastMsg.setText(currentItem.getGroupLastMessage());
+        holder.groupId.setText(String.valueOf(currentItem.getGroupId()));
     }
 
     @Override

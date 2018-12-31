@@ -3,6 +3,8 @@ package com.android.example.myapplication;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.os.Build;
+import android.security.NetworkSecurityPolicy;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -24,6 +26,8 @@ public class SignupActivity extends AppCompatActivity {
                              WindowManager.LayoutParams.FLAG_FULLSCREEN);
         getSupportActionBar().hide();
         setContentView(R.layout.introduction_signup);
+
+        
     }
 
     public void signUpUser(View view) {

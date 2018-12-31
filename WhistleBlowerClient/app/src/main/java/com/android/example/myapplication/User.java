@@ -8,8 +8,6 @@ public class User {
 
     private String userId;
     private List<Message> messagesToPull;
-
-
     private List<Group> groupsToPull;
 
     public User() {
@@ -27,9 +25,7 @@ public class User {
     }
 
     public List<Message> pullMessages(){
-        List<Message> messageList = new ArrayList<>(messagesToPull);
-        messagesToPull.clear();
-        return messageList;
+        return messagesToPull;
     }
 
     public void addGroup(Group group){
