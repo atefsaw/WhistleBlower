@@ -53,7 +53,7 @@ public class GroupsActivity extends AppCompatActivity {
     
         groupsNumber = 0;
     
-         String userPhoneNumber = getIntent().getStringExtra("PHONE_NUMBER");
+         String userPhoneNumber = getIntent().getStringExtra(getString(R.string.phoneNumberIntentKey));
         currentUser = new User(userPhoneNumber);
     
         this.groupsItems = new ArrayList<>();
@@ -103,7 +103,7 @@ public class GroupsActivity extends AppCompatActivity {
             if (resultCode == RESULT_OK)
             {
                 // TODO: for feature, check if there is more than one group created on the same second (by two different users)
-                Group createdGroup = RestHandler.pullGroups(data.getStringExtra("PHONE_NUMBER")).get(0);
+                Group createdGroup = RestHandler.pullGroups(data.getStringExtra(getString(R.string.phoneNumberIntentKey))).get(0);
                 allGroups.add(createdGroup);
                 String lastSeenMessage = "";
                 GroupItem item = new GroupItem(R.drawable.ic_android, createdGroup.getName(),
@@ -124,7 +124,7 @@ public class GroupsActivity extends AppCompatActivity {
 
         timerHandler.removeCallbacks(timerRunnable);
         Intent intent = new Intent(this, CreateGroup.class);
-        intent.putExtra("PHONE_NUMBER", currentUser.getUserId());
+        intent.putExtra(getString(R.string.phoneNumberIntentKey), currentUser.getUserId());
         startActivityForResult(intent, 1);
     }
 }
