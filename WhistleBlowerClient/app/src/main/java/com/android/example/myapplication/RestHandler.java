@@ -56,6 +56,7 @@ public class RestHandler {
         headers.add("Content-Type", "application/json");
         final HttpEntity<Group> request = new HttpEntity<>(group, headers);
         restTemplate = new RestTemplate();
+//        restTemplate.postForObject(uri, request, String.class);
 
         Thread thread = new Thread(new Runnable() {
             @Override
@@ -117,6 +118,7 @@ public class RestHandler {
                     Gson gson = new Gson();
                     Type listType = new TypeToken<List<Message>>(){}.getType();
                     messages.add((List) gson.fromJson(jsonOutput, listType));
+//                    User firstUser = groups.get(0).getUsers().get(0);
 
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -147,6 +149,7 @@ public class RestHandler {
                     Gson gson = new Gson();
                     Type listType = new TypeToken<List<Group>>(){}.getType();
                     groups.add((List) gson.fromJson(jsonOutput, listType));
+//                    User firstUser = groups.get(0).getUsers().get(0);
 
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -178,6 +181,7 @@ public class RestHandler {
                     Gson gson = new Gson();
                     Type listType = new TypeToken<List<Message>>(){}.getType();
                     messages.add((List) gson.fromJson(jsonOutput, listType));
+//                    User firstUser = groups.get(0).getUsers().get(0);
 
                 } catch (Exception e) {
                     e.printStackTrace();
