@@ -1,4 +1,3 @@
-
 package com.android.example.myapplication;
 
 
@@ -7,26 +6,26 @@ import java.util.List;
 
 public class User {
 
-    private int userId;
+    private String userId;
     private List<Message> messagesToPull;
     private List<Group> groupsToPull;
+
+    public User() {
+    }
+
+    public User(String userId) {
+        this.messagesToPull = new ArrayList<>();
+        this.groupsToPull = new ArrayList<>();
+        this.userId = userId;
+    }
+
 
     public void addMessage(Message message){
         messagesToPull.add(message);
     }
 
-    public int getUserId() {
-        return userId;
-    }
-
-    public void setUserId(int userId) {
-        this.userId = userId;
-    }
-
     public List<Message> pullMessages(){
-        List<Message> messageList = new ArrayList<>(messagesToPull);
-        messagesToPull.clear();
-        return messageList;
+        return messagesToPull;
     }
 
     public void addGroup(Group group){
@@ -39,6 +38,13 @@ public class User {
         return groupList;
     }
 
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
 
 
 }

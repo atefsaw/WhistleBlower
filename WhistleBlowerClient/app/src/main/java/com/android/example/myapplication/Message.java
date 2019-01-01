@@ -1,7 +1,6 @@
 
 package com.android.example.myapplication;
 
-import java.sql.Time;
 import java.util.Calendar;
 import java.util.TimeZone;
 
@@ -10,14 +9,17 @@ public class Message {
 
     private String content;
     private User sender;
-    private Group group;
+    private int groupId;
     private String time;
     private boolean isBelongsToCurrentUser;
 
-    public Message(String content, User sender, Group group, boolean isBelongsToCurrentUser) {
+    public Message() {
+    }
+
+    public Message(String content, User sender, int groupId, boolean isBelongsToCurrentUser) {
         this.content = content;
         this.sender = sender;
-        this.group = group;
+        this.groupId = groupId;
         this.time = initliazeTime();
         this.isBelongsToCurrentUser = isBelongsToCurrentUser;
     }
@@ -38,23 +40,25 @@ public class Message {
         this.sender = sender;
     }
 
-    public Group getGroup() {
-        return group;
+    public int getGroupId() {
+        return groupId;
     }
 
-    public void setGroup(Group group) {
-        this.group = group;
+    public void setGroupId(int group) {
+        this.groupId = group;
     }
 
     public String getTime() {
-        return time;
+        return this.time;
     }
 
     public void setTime(String time) {
         this.time = time;
     }
 
-    public boolean isBelongsToCurrentUser() { return isBelongsToCurrentUser; }
+    public boolean isBelongsToCurrentUser() {
+        return isBelongsToCurrentUser;
+    }
 
     private String initliazeTime() {
         long millis = System.currentTimeMillis();
@@ -63,6 +67,13 @@ public class Message {
         c.setTimeInMillis(millis);
         int hours = c.get(Calendar.HOUR_OF_DAY);
         int minutes = c.get(Calendar.MINUTE);
-        return String.format("%d:%d", hours, minutes);
+        String minutesFormat;
+        if (minutes < 10) {
+            minutesFormat = "0" + minutes;
+        }
+        else {
+            minutesFormat = String.valueOf(minutes);
+        }
+        return String.format("%d:%s", hours, minutesFormat);
     }
 }

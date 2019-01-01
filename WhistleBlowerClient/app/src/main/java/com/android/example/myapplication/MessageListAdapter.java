@@ -14,7 +14,7 @@ import java.util.List;
 
 public class MessageListAdapter extends BaseAdapter {
 
-    List<Message> messages = new ArrayList<Message>();
+    public List<Message> messages = new ArrayList<Message>();
     Context context;
 
     public MessageListAdapter(Context context) {
@@ -65,10 +65,11 @@ public class MessageListAdapter extends BaseAdapter {
 //            holder.name = (TextView) convertView.findViewById(R.id.name);
             holder.messageBody = (TextView) convertView.findViewById(R.id.text_message_body);
             convertView.setTag(holder);
-//            holder.name.setText(message.getData().getName());
             holder.messageBody.setText(message.getContent());
-            GradientDrawable drawable = (GradientDrawable) holder.avatar.getBackground();
-//            drawable.setColor(Color.parseColor(message.getData().getColor()));
+            holder.messageTime = (TextView) convertView.findViewById(R.id.text_message_time);
+            holder.messageTime.setText(message.getTime());
+//           TODO: GradientDrawable drawable = (GradientDrawable) holder.avatar.getBackground();
+//           TODO: drawable.setColor(Color.parseColor(message.getData().getColor()));
         }
         return convertView;
     }

@@ -1,3 +1,20 @@
 <resources>
-    <string name="app_name">My Application</string>
+    <string name="app_name">WhistleBlower</string>
+    <string name="phoneNumberIntentKey">PHONE_NUMBER</string>
+    <string name="enter_phone_number_hint">Please Enter you phone number...</string>
+    <string name="signup_button_text">Sign up</string>
+    <string name="action_bar_color">#2F4F4F</string>
+    <string name="groupIdIntentKey">GROUP_ID</string>
+    <string name="groupNameIntentKey">GROUP_NAME</string>
+    <string name="groupMessagesIntentKey">GROUP_MESSAGES</string>
+    <string name="application_user_id">0</string>
+    <string name="choose_contacts_in_actionbar">Choose contacts...</string>
+    <string name="insert_group_name_error_message">Insert group name</string>
+    <string name="add_contacts_error_message">Add at least one contact you your group</string>
+    <string name="groupMembersIntentKey">GROUP_MEMBERS</string>
+    <string name="next_button_text">Next</string>
+    <string name="insert_group_name_hint_message">Insert your group name..</string>
+    <string name="group_name_text">NOT_USED</string>
+    <string name="item_received_message_replacement">ITEM_RECEIVED</string>
+    <string name="item_received_time">CONSTANT_TIME</string>
 </resources>

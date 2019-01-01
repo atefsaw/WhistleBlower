@@ -12,7 +12,7 @@
         android:id="@+id/image_message_profile"
         android:layout_width="32dp"
         android:layout_height="32dp"
-        android:background="@drawable/circle"
+        android:background="@drawable/annonymous_sender"
         app:layout_constraintTop_toTopOf="parent"
         android:layout_marginLeft="8dp"
         app:layout_constraintLeft_toLeftOf="parent" />
@@ -23,17 +23,17 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="1dp"
         android:layout_marginTop="8dp"
-        android:background="@drawable/rounded_rectangle_orange"
+        android:background="@drawable/received_message_rectangle"
         android:maxWidth="240dp"
         android:padding="8dp"
-        android:text="Message Replacement"
-        android:textColor="#ffffff"
+        android:text="@string/item_received_message_replacement"
+        android:textColor="#000000"
         app:layout_constraintLeft_toRightOf="@+id/image_message_profile"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/text_message_time"
-        android:text="11:40"
+        android:text="@string/item_received_time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="10sp"
