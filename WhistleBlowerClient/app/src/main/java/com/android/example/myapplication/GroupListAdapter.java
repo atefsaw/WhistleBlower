@@ -9,13 +9,12 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class GroupListAdapter extends RecyclerView.Adapter <GroupListAdapter.GroupViewHolder>{
 
+public class GroupListAdapter extends RecyclerView.Adapter <GroupListAdapter.GroupViewHolder>{
 
     private ArrayList<GroupItem> groupsItems;
     private OnItemClickListener mListener;
@@ -54,17 +53,13 @@ public class GroupListAdapter extends RecyclerView.Adapter <GroupListAdapter.Gro
                     if (listener != null) {
                         int position = getAdapterPosition();
                         if (position != RecyclerView.NO_POSITION) {
-                            // listener.onItemClick(position);
                             // TODO: pass the contacts list from this intent
                             final ArrayList<String> messsagesList = new ArrayList<>();
-//                            for (Message message : currentgroupToMessages.get(groupName.getText())) {
-//                                messsagesList.add(message.getContent());
-//                            }
                             Intent intent = new Intent (v.getContext(), ChatActivity.class);
-                            intent.putExtra("GROUP_ID", groupId.getText());
-                            intent.putExtra("GROUP_NAME", groupName.getText());
-                            intent.putExtra("PHONE_NUMBER", currentPhoneNumber);
-                            intent.putStringArrayListExtra("GROUP_MESSAGES", messsagesList);
+                            intent.putExtra(context.getString(R.string.groupIdIntentKey), groupId.getText());
+                            intent.putExtra(context.getString(R.string.groupNameIntentKey), groupName.getText());
+                            intent.putExtra(context.getString(R.string.phoneNumberIntentKey), currentPhoneNumber);
+                            intent.putStringArrayListExtra(context.getString(R.string.groupMessagesIntentKey), messsagesList);
                             v.getContext().startActivity(intent);
                         }
                     }
