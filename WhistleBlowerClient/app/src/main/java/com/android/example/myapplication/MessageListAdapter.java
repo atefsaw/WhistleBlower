@@ -67,6 +67,8 @@ public class MessageListAdapter extends BaseAdapter {
             holder.messageBody.setText(message.getContent());
             holder.messageTime = (TextView) convertView.findViewById(R.id.text_message_time);
             holder.messageTime.setText(message.getTime());
+//           TODO: GradientDrawable drawable = (GradientDrawable) holder.avatar.getBackground();
+//           TODO: drawable.setColor(Color.parseColor(message.getData().getColor()));
         }
         return convertView;
     }
