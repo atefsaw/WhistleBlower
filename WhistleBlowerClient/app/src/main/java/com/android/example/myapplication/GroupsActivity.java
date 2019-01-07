@@ -1,9 +1,12 @@
 package com.android.example.myapplication;
 
+import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Handler;
+import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -47,15 +50,29 @@ public class GroupsActivity extends AppCompatActivity {
 
     ActionBar actionBar;
 
+    private GroupViewModel groupViewModel;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_groups);
 
+        //
+        groupViewModel = ViewModelProviders.of(this).get(GroupViewModel.class);
+
+        groupViewModel.getAllGroups().observe(this, new Observer<List<GroupItem>>() {
+            @Override
+            public void onChanged(@Nullable List<GroupItem> groupItems) {
+                adapter.setGroupsItems(groupItems);
+            }
+        });
+
+
+        //
         actionBar = getSupportActionBar();
         actionBar.setBackgroundDrawable(new ColorDrawable(Color.parseColor(getString(R.string.action_bar_color))));
-    
+
         groupsNumber = 0;
     
         String userPhoneNumber = getIntent().getStringExtra(getString(R.string.phoneNumberIntentKey));
@@ -76,13 +93,20 @@ public class GroupsActivity extends AppCompatActivity {
                         GroupItem item = new GroupItem(R.drawable.ic_android, groupName,
                                                        lastSeenMessage, group.getId());
                         groupsItems.add(item);
-                        recyclerView.setAdapter(adapter);
-                        recyclerView.setLayoutManager(layoutManager);
+
                 }
+
+
+
+                // select from groups
+
+
 
                 timerHandler.postDelayed(this, GROUP_POLLING_INTERVAL);
                 }
         };
+        recyclerView.setAdapter(adapter);
+        recyclerView.setLayoutManager(layoutManager);
 
         timerHandler.postDelayed(timerRunnable, 0); // Run the above polling thread immediately
 

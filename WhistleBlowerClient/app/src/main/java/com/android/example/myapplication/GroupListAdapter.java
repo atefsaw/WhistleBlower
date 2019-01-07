@@ -17,7 +17,9 @@ import java.util.Map;
 public class GroupListAdapter extends RecyclerView.Adapter <GroupListAdapter.GroupViewHolder>{
 
 
-    private ArrayList<GroupItem> groupsItems;
+
+
+    public List<GroupItem> groupsItems;
     private OnItemClickListener mListener;
     static Map<String, List<Message>> currentgroupToMessages;
     private int groupId;
@@ -104,5 +106,9 @@ public class GroupListAdapter extends RecyclerView.Adapter <GroupListAdapter.Gro
 
     public void updateGroupItems(GroupItem item){
         groupsItems.add(item);
+    }
+
+    public void setGroupsItems(List<GroupItem> groupsItems) {
+        this.groupsItems = groupsItems;
     }
 }
