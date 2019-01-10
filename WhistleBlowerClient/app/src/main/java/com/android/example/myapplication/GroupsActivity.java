@@ -99,9 +99,6 @@ public class GroupsActivity extends AppCompatActivity {
 
 
                 // select from groups
-
-
-
                 timerHandler.postDelayed(this, GROUP_POLLING_INTERVAL);
                 }
         };

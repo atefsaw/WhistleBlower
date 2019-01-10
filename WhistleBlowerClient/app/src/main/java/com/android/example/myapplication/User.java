@@ -19,7 +19,6 @@ public class User {
         this.userId = userId;
     }
 
-
     public void addMessage(Message message){
         messagesToPull.add(message);
     }

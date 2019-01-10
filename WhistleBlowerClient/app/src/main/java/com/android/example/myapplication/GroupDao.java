@@ -3,6 +3,7 @@ package com.android.example.myapplication;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.persistence.room.Dao;
+import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.Query;
 import android.arch.persistence.room.Update;
 
@@ -16,13 +17,16 @@ public interface GroupDao {
     @Update(onConflict = REPLACE)
     void updateGroup(GroupItem groupItem);
 
-    @Query("SELECT id from GroupMember where groupdId = :groupId")
-    public List<String> getUserIds(int groupId);
+    @Query("SELECT userId from GroupMember where groupId = :groupId")
+    public List<Integer> getUserIds(int groupId);
 
     @Update(onConflict = REPLACE)
     public void updateMembers(GroupMember groupMember);
 
-    @Query("SELECT lastMessage from GroupItemh where groupId = :groupId")
+    @Insert
+    public void insertMessage(GroupMessages groupMessages);
+
+    @Query("SELECT groupLastMessage from GroupItem where groupId = :groupId")
     public String getLastMessage(int groupId);
 
     @Query("SELECT * from GroupMessages where groupId = :groupId order by time ASC")
@@ -30,5 +34,6 @@ public interface GroupDao {
 
     @Query("SELECT * from GroupItem")
     public LiveData<List<GroupItem>> getAllGroups();
+
 
 }

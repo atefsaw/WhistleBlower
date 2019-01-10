@@ -19,6 +19,7 @@ public class GroupViewModel extends ViewModel {
 
     }
 
+    /** Groups area */
     public LiveData<List<GroupItem>> getAllGroups() {
         return allGroups;
     }
@@ -26,5 +27,6 @@ public class GroupViewModel extends ViewModel {
     public void update(GroupItem groupItem) {
         groupRepository.insert(groupItem);
     }
+
 
 }
