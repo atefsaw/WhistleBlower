@@ -123,7 +123,7 @@ public class GroupsActivity extends AppCompatActivity {
     public void addGroup(View view){
 
         timerHandler.removeCallbacks(timerRunnable);
-        Intent intent = new Intent(this, CreateGroup.class);
+        Intent intent = new Intent(this, SelectContacts.class);
         intent.putExtra(getString(R.string.phoneNumberIntentKey), currentUser.getUserId());
         startActivityForResult(intent, 1);
     }
