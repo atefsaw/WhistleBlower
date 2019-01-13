@@ -14,6 +14,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.SearchView;
+import android.widget.Toast;
 
 
 import java.util.ArrayList;
@@ -25,7 +26,7 @@ public class SelectContacts extends AppCompatActivity {
     ArrayList<String> contact_names;
     ArrayList<String> phoneNumbers;
     ArrayList<Contact> contactsArrayList = new ArrayList<>();
-
+    String userPhoneNumber;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,7 +39,7 @@ public class SelectContacts extends AppCompatActivity {
 
         contact_names = new ArrayList<>();
         phoneNumbers = new ArrayList<String>();
-
+        userPhoneNumber = getIntent().getStringExtra(getString(R.string.phoneNumberIntentKey));
         contactsListView = (ListView) findViewById(R.id.contacts_listview);
 
         getContacts();
@@ -54,6 +55,7 @@ public class SelectContacts extends AppCompatActivity {
 
         MenuItem searchMenuItem = menu.findItem(R.id.action_search);
         SearchView searchView = (SearchView) searchMenuItem.getActionView();
+        searchView.setMaxWidth(Integer.MAX_VALUE);
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String string) {
@@ -93,19 +95,36 @@ public class SelectContacts extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getGroupId();
 
-        if (id == R.id.action_settings) {
-            return true;
-        }
+//        if (id == R.id.action_settings) {
+//            return true;
+//        }
         return super.onOptionsItemSelected(item);
     }
 
-
+    public void onActivityResult(int requestCode, int resultCode, Intent data){
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1)
+        {
+            if (resultCode == RESULT_OK)
+            {
+                finish();
+            }
+        }
+    }
     public void chooseGroupName(View view) {
-        Intent intent = new Intent(this, ChooseGroupName.class);
-        // todo should put selected contacts names
-        intent.putStringArrayListExtra("contacts_name", this.contact_names);
-        // todo should put selected contacts numbers
-        intent.putStringArrayListExtra("phone_numbers", this.phoneNumbers);
-        startActivityForResult(intent, 1);
+        if (!contactsAdapter.selectedContactsNumbers.isEmpty()) {
+            contactsAdapter.selectedContactsNames.add("You");
+            contactsAdapter.selectedContactsNumbers.add(userPhoneNumber);
+            Intent intent = new Intent(this, ChooseGroupName.class);
+            intent.putExtra(getString(R.string.phoneNumberIntentKey), userPhoneNumber);
+            intent.putStringArrayListExtra("contacts_name", contactsAdapter.getSelectedContactsNames());
+            intent.putStringArrayListExtra("contacts_number", contactsAdapter.getSelectedContactsNumbers());
+            startActivity(intent);
+            finish();
+//        startActivityForResult(intent, 1);
+        }
+        else {
+            Toast.makeText(getBaseContext(), getString(R.string.add_contacts_error_message), Toast.LENGTH_SHORT).show();
+        }
     }
 }

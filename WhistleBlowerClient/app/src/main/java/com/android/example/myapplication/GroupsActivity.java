@@ -74,7 +74,7 @@ public class GroupsActivity extends AppCompatActivity {
                     recyclerView.setAdapter(adapter);
                     recyclerView.setLayoutManager(layoutManager);
                 }
-                timerHandler.postDelayed(this, 500);
+                timerHandler.postDelayed(this, 300);
             }
         };
         timerHandler.postDelayed(timerRunnable, 0);
@@ -126,5 +126,6 @@ public class GroupsActivity extends AppCompatActivity {
         Intent intent = new Intent(this, SelectContacts.class);
         intent.putExtra(getString(R.string.phoneNumberIntentKey), currentUser.getUserId());
         startActivityForResult(intent, 1);
+        finish();
     }
 }
