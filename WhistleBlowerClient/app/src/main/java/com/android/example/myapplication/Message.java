@@ -1,27 +1,36 @@
-
 package com.android.example.myapplication;
+
+import android.arch.persistence.room.Entity;
+import android.support.annotation.NonNull;
 
 import java.util.Calendar;
 import java.util.TimeZone;
 
-
+@Entity(primaryKeys = {"groupId", "sender", "time"})
 public class Message {
 
-    private String content;
-    private User sender;
-    private int groupId;
-    private String time;
-    private boolean isBelongsToCurrentUser;
+    @NonNull
+    public int groupId;
+
+    @NonNull
+    public String sender;
+
+    public String content;
+
+    @NonNull
+    public String time;
+
+    public boolean isBelongToUser;
 
     public Message() {
     }
 
-    public Message(String content, User sender, int groupId, boolean isBelongsToCurrentUser) {
+    public Message(String content, String sender, int groupId, boolean isBelongsToCurrentUser) {
         this.content = content;
         this.sender = sender;
         this.groupId = groupId;
         this.time = initliazeTime();
-        this.isBelongsToCurrentUser = isBelongsToCurrentUser;
+        this.isBelongToUser = isBelongsToCurrentUser;
     }
 
     public String getContent() {
@@ -32,11 +41,11 @@ public class Message {
         this.content = content;
     }
 
-    public User getSender() {
+    public String getSender() {
         return sender;
     }
 
-    public void setSender(User sender) {
+    public void setSender(String sender) {
         this.sender = sender;
     }
 
@@ -61,7 +70,7 @@ public class Message {
     }
 
     public boolean isBelongsToCurrentUser() {
-        return isBelongsToCurrentUser;
+        return isBelongToUser;
     }
 
     private String initliazeTime() {
@@ -87,4 +96,5 @@ public class Message {
         }
         return String.format("%d:%s:%s", hours, minutesFormat, secondsFormat);
     }
+
 }

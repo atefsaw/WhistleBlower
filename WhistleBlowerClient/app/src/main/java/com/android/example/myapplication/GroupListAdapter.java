@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -19,7 +20,7 @@ public class GroupListAdapter extends RecyclerView.Adapter <GroupListAdapter.Gro
 
 
 
-    public List<GroupItem> groupsItems;
+    public List<GroupItem> groupsItems = Collections.emptyList();
     private OnItemClickListener mListener;
     static Map<String, List<Message>> currentgroupToMessages;
     private int groupId;
@@ -76,8 +77,8 @@ public class GroupListAdapter extends RecyclerView.Adapter <GroupListAdapter.Gro
     }
 
     // we can add another passing argument to the adapter
-    public GroupListAdapter(ArrayList<GroupItem> groupItems, String phoneNumber, Map<String, List<Message>> groupToMessages){
-        this.groupsItems = groupItems;
+    public GroupListAdapter(String phoneNumber, Map<String, List<Message>> groupToMessages){
+//        this.groupsItems = groupItems;
         currentPhoneNumber = phoneNumber;
         currentgroupToMessages = groupToMessages;
     }
@@ -104,11 +105,12 @@ public class GroupListAdapter extends RecyclerView.Adapter <GroupListAdapter.Gro
         return groupsItems.size();
     }
 
-    public void updateGroupItems(GroupItem item){
-        groupsItems.add(item);
-    }
+//    public void updateGroupItems(GroupItem item){
+//        groupsItems.add(item);
+//    }
 
     public void setGroupsItems(List<GroupItem> groupsItems) {
         this.groupsItems = groupsItems;
+        notifyDataSetChanged();
     }
 }

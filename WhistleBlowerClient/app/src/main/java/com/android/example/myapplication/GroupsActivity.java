@@ -27,15 +27,15 @@ import java.util.Map;
 public class GroupsActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
-    private GroupListAdapter adapter; // the bridge between the list of the groups and the Recycler view
+//    private GroupListAdapter adapter; // the bridge between the list of the groups and the Recycler view
     private RecyclerView.LayoutManager layoutManager; // for aligning group's items in our list (creates the list view)
 
-    ArrayList<GroupItem> groupsItems; // the group items that will be seen in the groups list
+//    ArrayList<GroupItem> groupsItems; // the group items that will be seen in the groups list
     int groupsNumber;  // the number of groups in the application
 
     User currentUser; // the user who signed up and will use the application
 
-    List<Group> allGroups = new ArrayList<>();  // all the groups objects in the application
+//    List<Group> allGroups = new ArrayList<>();  // all the groups objects in the application
     List<Group> groups;
 
     public static Handler timerHandler;
@@ -58,61 +58,14 @@ public class GroupsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_groups);
 
-        //
-        groupViewModel = ViewModelProviders.of(this).get(GroupViewModel.class);
-
-        groupViewModel.getAllGroups().observe(this, new Observer<List<GroupItem>>() {
-            @Override
-            public void onChanged(@Nullable List<GroupItem> groupItems) {
-                adapter.setGroupsItems(groupItems);
-            }
-        });
-
-
-        //
-        actionBar = getSupportActionBar();
-        actionBar.setBackgroundDrawable(new ColorDrawable(Color.parseColor(getString(R.string.action_bar_color))));
-
-        groupsNumber = 0;
-    
-        String userPhoneNumber = getIntent().getStringExtra(getString(R.string.phoneNumberIntentKey));
+        String userPhoneNumber = "1";
         currentUser = new User(userPhoneNumber);
-    
-        this.groupsItems = new ArrayList<>();
 
-        timerHandler = new Handler();
-        timerRunnable = new Runnable() {
-            @Override
-            public void run() {
-                long millis = System.currentTimeMillis();
-                groups = RestHandler.pullGroups(currentUser.getUserId());
-                allGroups.addAll(groups); // add the new groups to all groups
-                for (Group group : groups) {
-                        String groupName = group.getName();
-                        String lastSeenMessage = "";
-                        GroupItem item = new GroupItem(R.drawable.ic_android, groupName,
-                                                       lastSeenMessage, group.getId());
-                        groupsItems.add(item);
-
-                }
-
-
-
-                // select from groups
-                timerHandler.postDelayed(this, GROUP_POLLING_INTERVAL);
-                }
-        };
-        recyclerView.setAdapter(adapter);
-        recyclerView.setLayoutManager(layoutManager);
-
-        timerHandler.postDelayed(timerRunnable, 0); // Run the above polling thread immediately
-
-        // TODO selects group from DB and add/update them to the groupItem array list
         this.recyclerView = (RecyclerView) findViewById(R.id.GroupsRecyclerView);
         this.recyclerView.setHasFixedSize(true);
         this.layoutManager = new LinearLayoutManager(this);
-        this.adapter = new GroupListAdapter(groupsItems, userPhoneNumber, groupToMessages);
-        this.recyclerView.setAdapter(this.adapter);
+        final GroupListAdapter adapter = new GroupListAdapter(userPhoneNumber, groupToMessages);
+        this.recyclerView.setAdapter(adapter);
         this.recyclerView.setLayoutManager(this.layoutManager);
 
 
@@ -123,8 +76,57 @@ public class GroupsActivity extends AppCompatActivity {
             @Override
             public void onItemClick(int position) {
                 adapter.notifyItemChanged(position);
-                }
+            }
         });
+        groupViewModel = ViewModelProviders.of(this, new ViewModelFactory(this.getApplication(), -1)).get(GroupViewModel.class);
+
+
+        groupViewModel.getAllGroups().observe(this, new Observer<List<GroupItem>>() {
+            @Override
+            public void onChanged(@Nullable List<GroupItem> groupItems) {
+                adapter.setGroupsItems(groupItems);
+            }
+        });
+
+        actionBar = getSupportActionBar();
+        actionBar.setBackgroundDrawable(new ColorDrawable(Color.parseColor(getString(R.string.action_bar_color))));
+
+        groupsNumber = 0;
+    
+//        String userPhoneNumber = getIntent().getStringExtra(getString(R.string.phoneNumberIntentKey));
+
+
+//        this.groupsItems = new ArrayList<>();
+
+        timerHandler = new Handler();
+        timerRunnable = new Runnable() {
+            @Override
+            public void run() {
+                long millis = System.currentTimeMillis();
+                groups = RestHandler.pullGroups(currentUser.getUserId());
+
+
+//                allGroups.addAll(groups); // add the new groups to all groups
+
+                for (Group group : groups) {
+                        String groupName = group.getName();
+                        String lastSeenMessage = "";
+                        GroupItem item = new GroupItem(R.drawable.ic_android, groupName,
+                                                       lastSeenMessage, group.getId());
+                        groupViewModel.update(item);
+//                        groupsItems.add(item);
+//                        recyclerView.setAdapter(adapter);
+//                        recyclerView.setLayoutManager(layoutManager);
+                }
+                // select from groups
+                timerHandler.postDelayed(this, GROUP_POLLING_INTERVAL);
+                }
+        };
+
+        timerHandler.postDelayed(timerRunnable, 0); // Run the above polling thread immediately
+
+        // TODO selects group from DB and add/update them to the groupItem array list
+
     }
 
     /**
@@ -139,13 +141,11 @@ public class GroupsActivity extends AppCompatActivity {
             {
                 // TODO: for feature, check if there is more than one group created on the same second (by two different users)
                 Group createdGroup = RestHandler.pullGroups(data.getStringExtra(getString(R.string.phoneNumberIntentKey))).get(0);
-                allGroups.add(createdGroup);
+
                 String lastSeenMessage = "";
                 GroupItem item = new GroupItem(R.drawable.ic_android, createdGroup.getName(),
                                                lastSeenMessage, createdGroup.getId());
-                groupsItems.add(item);
-                recyclerView.setAdapter(adapter);
-                recyclerView.setLayoutManager(layoutManager);
+                groupViewModel.update(item);
                 timerHandler.postDelayed(timerRunnable, 0);
             }
         }

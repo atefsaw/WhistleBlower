@@ -11,20 +11,20 @@ public class ChatViewModel extends ViewModel {
 
     private ChatRepository chatRepository;
 
-    private LiveData<List<GroupMessages>> groupMessages;
+    private LiveData<List<Message>> messages;
 
     public ChatViewModel(Application application, int groupId){
         chatRepository = new ChatRepository(application, groupId);
-        groupMessages = chatRepository.getAllMessages();
+        messages = chatRepository.getAllMessages();
     }
 
-    public void insertMessage(GroupMessages groupMessages) {
-        chatRepository.insert(groupMessages);
+    public void insertMessage(Message groupMessage) {
+        chatRepository.insert(groupMessage);
     }
 
 
     /** Messages area */
-    public LiveData<List<GroupMessages>> getAllMessagesForGroup(int groupId) {
-        return groupMessages;
+    public LiveData<List<Message>> getAllMessagesForGroup() {
+        return messages;
     }
 }

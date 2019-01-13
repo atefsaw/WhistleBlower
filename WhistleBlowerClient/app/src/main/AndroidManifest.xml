@@ -15,6 +15,10 @@
         android:networkSecurityConfig="@xml/network_security_config">
 
         <activity android:name=".GroupsActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
 
             <!-- <intent-filter> -->
             <!-- <action android:name="android.intent.action.MAIN" /> -->
@@ -27,10 +31,6 @@
 
         </activity>
         <activity android:name=".SignupActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity android:name=".CreateGroup"></activity>
     </application>

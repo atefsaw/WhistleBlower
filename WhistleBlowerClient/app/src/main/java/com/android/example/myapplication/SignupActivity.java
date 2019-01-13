@@ -25,14 +25,14 @@ public class SignupActivity extends AppCompatActivity {
         getSupportActionBar().hide();
 
 
-        currentUserViewModel = ViewModelProviders.of(this, new ViewModelFactory(this.getApplication(), -1)).get(CurrentUserViewModel.class);
-        if (currentUserViewModel.getCurrentUser().size() > 0) {
-            String userPhoneNumber = currentUserViewModel.getCurrentUser().get(0).userPhoneNumber;
-            Intent groupsActivityIntent = new Intent(this, GroupsActivity.class);
-            groupsActivityIntent.putExtra(getString(R.string.phoneNumberIntentKey), userPhoneNumber);
-            startActivity(groupsActivityIntent);
-            finish(); // close the signup
-        }
+//        currentUserViewModel = ViewModelProviders.of(this, new ViewModelFactory(this.getApplication(), -1)).get(CurrentUserViewModel.class);
+//        if (currentUserViewModel.getCurrentUser().size() > 0) {
+//            String userPhoneNumber = currentUserViewModel.getCurrentUser().get(0).userPhoneNumber;
+//            Intent groupsActivityIntent = new Intent(this, GroupsActivity.class);
+//            groupsActivityIntent.putExtra(getString(R.string.phoneNumberIntentKey), userPhoneNumber);
+//            startActivity(groupsActivityIntent);
+//            finish(); // close the signup
+//        }
 
         setContentView(R.layout.introduction_signup);
 

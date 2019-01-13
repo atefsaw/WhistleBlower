@@ -7,7 +7,7 @@ import java.util.TimeZone;
 public class Message {
 
     private String content;
-    private User sender;
+    private String sender;
     private int groupId;
     private String time;
     private boolean isBelongsToCurrentUser;
@@ -15,7 +15,7 @@ public class Message {
     public Message() {
     }
 
-    public Message(String content, User sender, int groupId, boolean isBelongsToCurrentUser) {
+    public Message(String content, String sender, int groupId, boolean isBelongsToCurrentUser) {
         this.content = content;
         this.sender = sender;
         this.groupId = groupId;
@@ -31,11 +31,11 @@ public class Message {
         this.content = content;
     }
 
-    public User getSender() {
+    public String getSender() {
         return sender;
     }
 
-    public void setSender(User sender) {
+    public void setSender(String sender) {
         this.sender = sender;
     }
 

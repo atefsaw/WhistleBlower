@@ -14,8 +14,8 @@ import static android.arch.persistence.room.OnConflictStrategy.REPLACE;
 @Dao
 public interface GroupDao {
 
-    @Update(onConflict = REPLACE)
-    void updateGroup(GroupItem groupItem);
+//    @Update(onConflict = REPLACE)
+//    void updateGroup(GroupItem groupItem);
 
     @Query("SELECT userId from GroupMember where groupId = :groupId")
     public List<Integer> getUserIds(int groupId);
@@ -24,16 +24,19 @@ public interface GroupDao {
     public void updateMembers(GroupMember groupMember);
 
     @Insert
-    public void insertMessage(GroupMessages groupMessages);
+    public void insertMessage(Message message);
 
     @Query("SELECT groupLastMessage from GroupItem where groupId = :groupId")
     public String getLastMessage(int groupId);
 
-    @Query("SELECT * from GroupMessages where groupId = :groupId order by time ASC")
-    public LiveData<List<GroupMessages>> getMessagesForGroup(int groupId);
+    @Query("SELECT * from Message where groupId = :groupId order by time ASC")
+    public LiveData<List<Message>> getMessagesForGroup(int groupId);
 
     @Query("SELECT * from GroupItem")
-    public LiveData<List<GroupItem>> getAllGroups();
+     LiveData<List<GroupItem>> getAllGroups();
+
+    @Insert(onConflict = REPLACE)
+    public void insertGroup(GroupItem groupItem);
 
 
 }

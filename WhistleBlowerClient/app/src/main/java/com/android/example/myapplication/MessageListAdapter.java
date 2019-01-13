@@ -2,27 +2,26 @@ package com.android.example.myapplication;
 
 import android.app.Activity;
 import android.content.Context;
-import android.graphics.drawable.GradientDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class MessageListAdapter extends BaseAdapter {
 
-    public List<Message> messages = new ArrayList<Message>();
+    public List<Message> messages = Collections.emptyList();
     Context context;
 
     public MessageListAdapter(Context context) {
         this.context = context;
     }
 
-    public void add(Message message) {
-        this.messages.add(message);
+    public void add(List<Message> messages) {
+        this.messages = messages;
         notifyDataSetChanged(); // to render the list we need to notify
     }
 

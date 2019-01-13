@@ -13,7 +13,7 @@ public class CurrentUserRepository {
 
 
     public CurrentUserRepository(Application application){
-        AppDatabase db = AppDatabase.getInMemoryDatabase(application);
+        AppDatabase db = AppDatabase.getDatabase(application);
         currentUserDao = db.currentUserDao();
     }
 

@@ -14,7 +14,8 @@ public class GroupRepository {
     private LiveData<List<GroupItem>> allGroups;
 
     public GroupRepository(Application application){
-        AppDatabase db = AppDatabase.getInMemoryDatabase(application);
+        AppDatabase db = AppDatabase.getDatabase(application);
+
         groupDao = db.groupModel();
         allGroups = groupDao.getAllGroups();
     }
@@ -37,7 +38,7 @@ public class GroupRepository {
 
         @Override
         protected Void doInBackground(GroupItem... groupItems) {
-            asyncGroupdDao.updateGroup(groupItems[0]);
+            asyncGroupdDao.insertGroup(groupItems[0]);
             return null;
         }
 

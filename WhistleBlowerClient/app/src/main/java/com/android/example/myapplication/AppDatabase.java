@@ -5,7 +5,7 @@ import android.arch.persistence.room.Room;
 import android.arch.persistence.room.RoomDatabase;
 import android.content.Context;
 
-@Database(entities = {GroupItem.class, GroupMember.class, GroupMessages.class, CurrentUserEntity.class}, version = 1, exportSchema = false)
+@Database(entities = {GroupItem.class, GroupMember.class, Message.class, CurrentUserEntity.class}, version = 3, exportSchema = false)
 public abstract class AppDatabase extends RoomDatabase {
 
 
@@ -14,9 +14,10 @@ public abstract class AppDatabase extends RoomDatabase {
     public abstract GroupDao groupModel();
     public abstract CurrentUserDao currentUserDao();
 
-    public static AppDatabase getInMemoryDatabase(Context context){
+    public static AppDatabase getDatabase(Context context){
         if (INSTANCE == null){
-            INSTANCE = Room.inMemoryDatabaseBuilder(context.getApplicationContext(), AppDatabase.class)
+            INSTANCE = Room.databaseBuilder(context.getApplicationContext(), AppDatabase.class, "myDatabase")
+                    .fallbackToDestructiveMigration()
                     .build();
 
         }
