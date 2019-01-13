@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
 
 import org.springframework.web.client.RestTemplate;
@@ -62,6 +63,9 @@ public class ChatActivity extends AppCompatActivity {
 
         // this is where the message text goes
         editText = (EditText) this.findViewById(R.id.edittext_chatbox);
+
+        ImageView incognitoLogoInBackground = (ImageView) this.findViewById(R.id.incognitoLogoInBackground);
+        incognitoLogoInBackground.setImageAlpha(50);
 
         // Get Intents
         String userPhoneNumber = getIntent().getStringExtra(getString(R.string.phoneNumberIntentKey));

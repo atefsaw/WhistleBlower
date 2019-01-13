@@ -7,4 +7,5 @@
     <color name="titletextcolor">#000000</color>
     <color name="received_message_color">#B0C4DE</color>
     <color name="sent_message_color">#F0F8FF</color>
+    <color name="incognito_color">#A9A9A9</color>
 </resources>

@@ -41,7 +41,8 @@
             android:layout_marginBottom="24dp"
             android:padding="12dp"
             android:text="@string/signup_button_text"
-            android:onClick="signUpUser"/>
+            android:onClick="signUpUser"
+            android:color="@color/incognito_color"/>
 
     </LinearLayout>
 </ScrollView>

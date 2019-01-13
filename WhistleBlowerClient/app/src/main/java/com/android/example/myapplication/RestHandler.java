@@ -127,7 +127,6 @@ public class RestHandler {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-
         return messages.get(0);
     }
 
