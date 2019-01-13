@@ -17,4 +17,7 @@
     <string name="group_name_text">NOT_USED</string>
     <string name="item_received_message_replacement">ITEM_RECEIVED</string>
     <string name="item_received_time">CONSTANT_TIME</string>
+    <string name="USER_SIGNUP_SP_FILE">com.android.example.myapplication.USER_SIGNUP_FILE</string>
+    <string name="USER_SIGNUP_SP_KEY">USER_SIGNED_UP_KEY</string>
+    <string name="USER_SIGNUP_SP_PHONENUMBER">USER_PHONE_NUMBER_KEY</string>
 </resources>
