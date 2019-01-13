@@ -38,7 +38,7 @@ public class SignupActivity extends AppCompatActivity {
             SharedPreferences.Editor editor = sharedPreferences.edit();
             editor.putBoolean(getString(R.string.USER_SIGNUP_SP_KEY), false); // Save this locally to not prompt register layout again
             editor.apply();
-            setContentView(R.layout.introduction_signup); // TODO: check if this needs to be before startActivity()
+            setContentView(R.layout.introduction_signup);
 
         }
     }
