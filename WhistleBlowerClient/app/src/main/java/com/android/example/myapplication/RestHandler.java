@@ -191,5 +191,37 @@ public class RestHandler {
         return messages.get(0);
     }
 
+    public static List<User> getRegisteredUsers(){
+        final String uri = "http://" + HOST_IP + ":8027/getUsers/";
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Content-Type", "application/json");
+        restTemplate = new RestTemplate();
+        final List<List<User>> users = new ArrayList<>();
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try  {
+                    String jsonOutput = restTemplate.getForObject(uri, String.class);
+                    Gson gson = new Gson();
+                    Type listType = new TypeToken<List<User>>(){}.getType();
+                    users.add((List) gson.fromJson(jsonOutput, listType));
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        thread.start();
+
+        try {
+            thread.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        return users.get(0);
+    }
+
+
 
 }
