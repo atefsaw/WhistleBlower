@@ -58,8 +58,7 @@ public class GroupsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_groups);
 
-        //        String userPhoneNumber = getIntent().getStringExtra(getString(R.string.phoneNumberIntentKey));
-        String userPhoneNumber = "2";
+        String userPhoneNumber = getIntent().getStringExtra(getString(R.string.phoneNumberIntentKey));
         currentUser = new User(userPhoneNumber);
 
         this.recyclerView = (RecyclerView) findViewById(R.id.GroupsRecyclerView);
