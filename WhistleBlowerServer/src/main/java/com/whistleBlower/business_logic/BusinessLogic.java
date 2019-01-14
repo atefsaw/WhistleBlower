@@ -55,7 +55,7 @@ public class BusinessLogic {
         Optional<Group> group = groups.stream().filter(curr_group -> curr_group.getId() == message.getGroupId()).findAny();
         if (group.isPresent()) {
             List<String> users = group.get().getUserIds();
-            users.stream().filter(userId -> !getUserById(userId).getUserId().equals(message.getSender().getUserId())).forEach(userId -> sendMessageToUser(getUserById(userId), message));
+            users.stream().filter(userId -> !getUserById(userId).getUserId().equals(message.getSender())).forEach(userId -> sendMessageToUser(getUserById(userId), message));
             group.get().setLastMessage(message);
         }
     }
@@ -79,7 +79,7 @@ public class BusinessLogic {
     }
 
     private void createDefaultMessage(Group group) {
-        Message defaultMessage = new Message("Hello, This is anonymous... ", new User("0"), group.getId(), false);
+        Message defaultMessage = new Message("Hello, This is anonymous... ", "0", group.getId(), false);
         group.getUserIds().forEach(user -> getUserById(user).addMessage(defaultMessage));
         group.setLastMessage(defaultMessage);
     }

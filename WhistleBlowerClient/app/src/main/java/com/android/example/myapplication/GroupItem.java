@@ -1,10 +1,16 @@
 package com.android.example.myapplication;
 
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.PrimaryKey;
+
+@Entity
 public class GroupItem {
+    @PrimaryKey
+    private int groupId;
     private int imageResource;
     private String groupName;
     private String groupLastMessage;
-    private int groupId;
+
 
     public GroupItem(int imageResource, String groupName, String groupLastMessage, int groupId){
         this.imageResource = imageResource;

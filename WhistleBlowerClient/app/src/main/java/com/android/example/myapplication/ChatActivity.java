@@ -1,8 +1,11 @@
 package com.android.example.myapplication;
 
+import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModelProviders;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Handler;
+import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -11,11 +14,8 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 
-import org.springframework.web.client.RestTemplate;
-
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Timer;
 import java.util.TimerTask;
 
 
@@ -34,6 +34,7 @@ public class ChatActivity extends AppCompatActivity {
     private Group currentGroup;
     private String groupId;
 
+    public ChatViewModel chatViewModel;
     ActionBar actionBar;
 
     private final static int MESSAGE_POLLING_INTERVAL = 300;
@@ -44,12 +45,11 @@ public class ChatActivity extends AppCompatActivity {
     public void sendMessage(View view) {
         String textMessage = editText.getText().toString();
         if (textMessage.length() > 0) {
-            Message message = new Message(textMessage, currentUser, Integer.parseInt(groupId), true);
+            Message message = new Message(textMessage, currentUser.getUserId(), Integer.parseInt(groupId), true);
             message.setContent(textMessage);
             editText.getText().clear();
             RestHandler.sendMessages(message);
-            messageAdapter.add(message);
-            messagesView.setSelection(messagesView.getCount() - 1);
+            chatViewModel.insertMessage(message);
         }
     }
 
@@ -71,7 +71,21 @@ public class ChatActivity extends AppCompatActivity {
         String userPhoneNumber = getIntent().getStringExtra(getString(R.string.phoneNumberIntentKey));
         this.groupId = getIntent().getStringExtra(getString(R.string.groupIdIntentKey));
         String groupName = getIntent().getStringExtra(getString(R.string.groupNameIntentKey));
-        ArrayList<String> messages = getIntent().getStringArrayListExtra(getString(R.string.groupMessagesIntentKey));
+//        ArrayList<String> messages = getIntent().getStringArrayListExtra(getString(R.string.groupMessagesIntentKey));
+        messageAdapter = new MessageListAdapter(this);
+        messagesView = (ListView) findViewById(R.id.messages_view);
+        messagesView.setAdapter(messageAdapter);
+
+
+        chatViewModel = ViewModelProviders.of(this, new ViewModelFactory(this.getApplication(), Integer.parseInt(this.groupId))).get(ChatViewModel.class);
+
+
+        chatViewModel.getAllMessagesForGroup().observe(this, new Observer<List<Message>>() {
+            @Override
+            public void onChanged(@Nullable List<Message> groupMessages) {
+                messageAdapter.add(groupMessages);
+            }
+        });
 
         // Set the group
         currentUser = new User(userPhoneNumber);
@@ -88,9 +102,6 @@ public class ChatActivity extends AppCompatActivity {
         // set the action bar with the group name
         this.setTitle(groupName);
 
-        messageAdapter = new MessageListAdapter(this);
-        messagesView = (ListView) findViewById(R.id.messages_view);
-        messagesView.setAdapter(messageAdapter);
 
         final Handler timerHandler = new Handler();
         Runnable timerRunnable = new Runnable() {
@@ -99,8 +110,8 @@ public class ChatActivity extends AppCompatActivity {
                 long millis = System.currentTimeMillis();
                 messagesList = RestHandler.pullMessages(currentUser.getUserId(), Integer.parseInt(groupId));
                 for (Message receievedMessage : messagesList) {
-                    messageAdapter.add(receievedMessage);
-                    messagesView.setSelection(messagesView.getCount() - 1);
+                    chatViewModel.insertMessage(receievedMessage);
+//                    messagesView.setSelection(messagesView.getCount() - 1);
                 }
                 timerHandler.postDelayed(this, MESSAGE_POLLING_INTERVAL);
             }
@@ -116,8 +127,7 @@ public class ChatActivity extends AppCompatActivity {
         public void run() {
             messagesList = RestHandler.pullMessages(currentUser.getUserId(), currentGroup.getId());
             for (Message receievedMessage : messagesList) {
-                messageAdapter.add(receievedMessage);
-                messagesView.setSelection(messagesView.getCount() - 1);
+               chatViewModel.insertMessage(receievedMessage);
             }
         }
     }

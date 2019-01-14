@@ -64,12 +64,6 @@ public class CreateGroup extends AppCompatActivity {
 
 
     /**
-     * This method adds the newly created group to the layout
-     */
-    public void addGroupToLayout() {
-
-    }
-    /**
      * This method gets a list of contact numbers from the users phone.
      * TODO: needs to be cached in the signup activity as it's used on
      */
