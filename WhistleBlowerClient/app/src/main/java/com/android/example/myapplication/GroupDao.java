@@ -38,5 +38,14 @@ public interface GroupDao {
     @Insert(onConflict = REPLACE)
     public void insertGroup(GroupItem groupItem);
 
+        @Query("DELETE from groupitem")
+    void deleteGroups();
+
+    @Query("DELETE from groupmember")
+    void deleteUsers();
+
+    @Query("DELETE from Message")
+    void deleteMessages();
+
 
 }
