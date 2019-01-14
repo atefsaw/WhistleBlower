@@ -13,11 +13,7 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.ImageButton;
-import android.widget.Toast;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -159,6 +155,7 @@ public class GroupsActivity extends AppCompatActivity {
         Intent intent = new Intent(this, CreateGroup.class);
         intent.putExtra(getString(R.string.phoneNumberIntentKey), currentUser.getUserId());
         startActivityForResult(intent, CREATE_GROUP_REQUEST);
+        finish();
     }
 
 }
