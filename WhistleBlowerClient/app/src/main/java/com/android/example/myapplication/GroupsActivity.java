@@ -152,7 +152,7 @@ public class GroupsActivity extends AppCompatActivity {
      */
     public void addGroup(View view){
         timerHandler.removeCallbacks(timerRunnable); // Stops the polling thread of getting groups
-        Intent intent = new Intent(this, CreateGroup.class);
+        Intent intent = new Intent(this, SelectContacts.class);
         intent.putExtra(getString(R.string.phoneNumberIntentKey), currentUser.getUserId());
         startActivityForResult(intent, CREATE_GROUP_REQUEST);
         finish();

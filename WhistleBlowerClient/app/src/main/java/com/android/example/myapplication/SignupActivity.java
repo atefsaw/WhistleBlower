@@ -23,7 +23,7 @@ public class SignupActivity extends AppCompatActivity {
                              WindowManager.LayoutParams.FLAG_FULLSCREEN);
         getSupportActionBar().hide();
 
-//        this.getSharedPreferences(getString(R.string.USER_SIGNUP_SP_FILE), 0).edit().clear().apply();
+        this.getSharedPreferences(getString(R.string.USER_SIGNUP_SP_FILE), 0).edit().clear().apply();
 
         SharedPreferences sharedPreferences = getSharedPreferences(getString(R.string.USER_SIGNUP_SP_FILE), Activity.MODE_PRIVATE);
         boolean alreadySignedUp = sharedPreferences.getBoolean(getString(R.string.USER_SIGNUP_SP_KEY), false);

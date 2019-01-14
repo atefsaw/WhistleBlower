@@ -56,7 +56,7 @@ public class MessageListAdapter extends BaseAdapter {
             holder.messageBody.setText(message.getContent());
 
             holder.messageTime = (TextView) convertView.findViewById(R.id.text_message_time);
-            holder.messageTime.setText(""); // TODO: change later
+            holder.messageTime.setText(message.getTime()); // TODO: change later
 
         } else if (message.getSender().equals("0")) { // Admin message
             convertView = messageInflater.inflate(R.layout.item_message_admin, null);
@@ -66,7 +66,7 @@ public class MessageListAdapter extends BaseAdapter {
             holder.messageBody.setText(message.getContent());
 
             holder.messageTime = (TextView) convertView.findViewById(R.id.text_message_time);
-            holder.messageTime.setText(message.getTime());
+            holder.messageTime.setText("");
         } else { // this message was sent by someone else in the group
             convertView = messageInflater.inflate(R.layout.item_message_received, null);
             holder.avatar = (View) convertView.findViewById(R.id.image_message_profile);
