@@ -23,6 +23,8 @@ public class SignupActivity extends AppCompatActivity {
                              WindowManager.LayoutParams.FLAG_FULLSCREEN);
         getSupportActionBar().hide();
 
+        this.getSharedPreferences(getString(R.string.USER_SIGNUP_SP_FILE), 0).edit().clear().apply();
+
         SharedPreferences sharedPreferences = getSharedPreferences(getString(R.string.USER_SIGNUP_SP_FILE), Activity.MODE_PRIVATE);
         boolean alreadySignedUp = sharedPreferences.getBoolean(getString(R.string.USER_SIGNUP_SP_KEY), false);
         String userPhoneNumber = sharedPreferences.getString(getString(R.string.USER_SIGNUP_SP_PHONENUMBER), "");
@@ -39,7 +41,6 @@ public class SignupActivity extends AppCompatActivity {
             editor.putBoolean(getString(R.string.USER_SIGNUP_SP_KEY), false); // Save this locally to not prompt register layout again
             editor.apply();
             setContentView(R.layout.introduction_signup);
-
         }
     }
 

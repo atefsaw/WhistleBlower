@@ -23,7 +23,8 @@
             <!-- </intent-filter> -->
         </activity>
         <activity android:name=".ChatActivity"></activity>
-        <activity android:name=".SelectContacts"></activity>
+        <activity android:name=".SelectContacts">
+        </activity>
         <activity android:name=".SignupActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
