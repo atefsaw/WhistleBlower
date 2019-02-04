@@ -119,9 +119,9 @@ public class SelectContacts extends AppCompatActivity {
             intent.putExtra(getString(R.string.phoneNumberIntentKey), userPhoneNumber);
             intent.putStringArrayListExtra("contacts_name", contactsAdapter.getSelectedContactsNames());
             intent.putStringArrayListExtra("contacts_number", contactsAdapter.getSelectedContactsNumbers());
-            startActivity(intent);
-            finish();
-//        startActivityForResult(intent, 1);
+//            startActivity(intent);
+            startActivityForResult(intent, 1);
+//            finish();
         }
         else {
             Toast.makeText(getBaseContext(), getString(R.string.add_contacts_error_message), Toast.LENGTH_SHORT).show();

@@ -1,12 +1,15 @@
 package com.android.example.myapplication;
 
+import android.Manifest;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Handler;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -63,7 +66,6 @@ public class GroupsActivity extends AppCompatActivity {
         final GroupListAdapter adapter = new GroupListAdapter(userPhoneNumber, groupToMessages);
         this.recyclerView.setAdapter(adapter);
         this.recyclerView.setLayoutManager(this.layoutManager);
-
 
         adapter.setOnItemClickListener(new GroupListAdapter.OnItemClickListener() {
             /**
@@ -135,12 +137,12 @@ public class GroupsActivity extends AppCompatActivity {
             if (resultCode == RESULT_OK)
             {
                 // TODO: for feature, check if there is more than one group created on the same second (by two different users)
-                Group createdGroup = RestHandler.pullGroups(data.getStringExtra(getString(R.string.phoneNumberIntentKey))).get(0);
+                /**Group createdGroup = RestHandler.pullGroups(data.getStringExtra(getString(R.string.phoneNumberIntentKey))).get(0);
 
                 String lastSeenMessage = "";
                 GroupItem item = new GroupItem(R.drawable.ic_android, createdGroup.getName(),
                                                lastSeenMessage, createdGroup.getId());
-                groupViewModel.update(item);
+                groupViewModel.update(item);*/
                 timerHandler.postDelayed(timerRunnable, 0);
             }
         }
@@ -155,7 +157,7 @@ public class GroupsActivity extends AppCompatActivity {
         Intent intent = new Intent(this, SelectContacts.class);
         intent.putExtra(getString(R.string.phoneNumberIntentKey), currentUser.getUserId());
         startActivityForResult(intent, CREATE_GROUP_REQUEST);
-        finish();
+//        finish();0
     }
 
 }

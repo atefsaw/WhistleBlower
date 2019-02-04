@@ -37,7 +37,7 @@ public class ChatActivity extends AppCompatActivity {
     public ChatViewModel chatViewModel;
     ActionBar actionBar;
 
-    private final static int MESSAGE_POLLING_INTERVAL = 300;
+    private final static int MESSAGE_POLLING_INTERVAL = 500;
 
     /**
      * This method sends a message to the group.

@@ -58,11 +58,11 @@ public class Message {
     }
 
     public String getTime() {
-        return this.time.substring(0, this.time.length() - 3);
+        return this.time;
     }
 
-    public String getRealTime() {
-        return this.time;
+    public String getUpdatedTime() {
+        return this.time.substring(0, this.time.length() - 3);
     }
 
     public void setTime(String time) {
@@ -73,7 +73,7 @@ public class Message {
         return isBelongToUser;
     }
 
-    private String initliazeTime() {
+    public static String initliazeTime() {
         long millis = System.currentTimeMillis();
         Calendar c = Calendar.getInstance();
         c.setTimeZone(TimeZone.getTimeZone("GMT+2"));

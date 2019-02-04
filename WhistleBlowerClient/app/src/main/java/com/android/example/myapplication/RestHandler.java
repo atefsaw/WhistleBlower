@@ -16,11 +16,13 @@ import java.util.List;
 
 public class RestHandler {
 
-    static String HOST_IP = "172.29.123.134";
+    static String HOST_IP = "172.29.109.6";
+    static String HOST_PORT = "8080";
+
     static RestTemplate restTemplate = new RestTemplate();
 
     public static void createUser(User user) throws JsonProcessingException {
-        final String uri = "http://" + HOST_IP + ":8027/createUser";
+        final String uri = "http://" + HOST_IP + ":" + HOST_PORT + "/createUser";
         HttpHeaders headers = new HttpHeaders();
         headers.add("Content-Type", "application/json");
         final HttpEntity<User> request = new HttpEntity<>(user, headers);
@@ -47,7 +49,7 @@ public class RestHandler {
 
 
     public static void createGroup(Group group){
-        final String uri = "http://" + HOST_IP +  ":8027/createGroup";
+        final String uri = "http://" + HOST_IP + ":" + HOST_PORT + "/createGroup";
         HttpHeaders headers = new HttpHeaders();
         headers.add("Content-Type", "application/json");
         final HttpEntity<Group> request = new HttpEntity<>(group, headers);
@@ -73,7 +75,7 @@ public class RestHandler {
 
 
     public static void sendMessages(Message message){
-        final String uri = "http://" + HOST_IP +  ":8027/sendMessage";
+        final String uri = "http://" + HOST_IP +":" + HOST_PORT + "/sendMessage";
         HttpHeaders headers = new HttpHeaders();
         headers.add("Content-Type", "application/json");
         final HttpEntity<Message> request = new HttpEntity<>(message, headers);
@@ -98,7 +100,7 @@ public class RestHandler {
 
 
     public static List<Message> pullMessages(String userId, int groupId){
-        final String uri = "http://" + HOST_IP + ":8027/pullMessagesForGroup/" + groupId + "/" + userId;
+        final String uri = "http://" + HOST_IP + ":" + HOST_PORT + "/pullMessagesForGroup/" + groupId + "/" + userId;
         HttpHeaders headers = new HttpHeaders();
         headers.add("Content-Type", "application/json");
         restTemplate = new RestTemplate();
@@ -128,7 +130,7 @@ public class RestHandler {
 
 
     public static List<Group> pullGroups(String phoneNumber){
-        final String uri = "http://" + HOST_IP + ":8027/pullGroups/" + phoneNumber;
+        final String uri = "http://" + HOST_IP + ":" + HOST_PORT + "/pullGroups/" + phoneNumber;
         restTemplate = new RestTemplate();
         final List<List<Group>> groups = new ArrayList<>();
         Thread thread = new Thread(new Runnable() {
@@ -156,7 +158,7 @@ public class RestHandler {
     }
 
     public static List<Message> pullLastGroupMessages(String userId){
-        final String uri = "http://" + HOST_IP + ":8027/pullLastMessages/" + userId;
+        final String uri = "http://" + HOST_IP + ":" + HOST_PORT + "/pullLastMessages/" + userId;
         HttpHeaders headers = new HttpHeaders();
         headers.add("Content-Type", "application/json");
         restTemplate = new RestTemplate();
@@ -187,7 +189,7 @@ public class RestHandler {
     }
 
     public static List<User> getRegisteredUsers(){
-        final String uri = "http://" + HOST_IP + ":8027/getUsers/";
+        final String uri = "http://" + HOST_IP + ":" + HOST_PORT + "/getUsers/";
         HttpHeaders headers = new HttpHeaders();
         headers.add("Content-Type", "application/json");
         restTemplate = new RestTemplate();
@@ -216,7 +218,4 @@ public class RestHandler {
 
         return users.get(0);
     }
-
-
-
 }

@@ -56,7 +56,7 @@ public class MessageListAdapter extends BaseAdapter {
             holder.messageBody.setText(message.getContent());
 
             holder.messageTime = (TextView) convertView.findViewById(R.id.text_message_time);
-            holder.messageTime.setText(message.getTime()); // TODO: change later
+            holder.messageTime.setText(message.getUpdatedTime()); // TODO: change later
 
         } else if (message.getSender().equals("0")) { // Admin message
             convertView = messageInflater.inflate(R.layout.item_message_admin, null);
@@ -66,7 +66,9 @@ public class MessageListAdapter extends BaseAdapter {
             holder.messageBody.setText(message.getContent());
 
             holder.messageTime = (TextView) convertView.findViewById(R.id.text_message_time);
-            holder.messageTime.setText("");
+            String currentTime = Message.initliazeTime();
+            holder.messageTime.setText(currentTime.substring(0, currentTime.length() - 3));
+//            holder.messageTime.setText("");
         } else { // this message was sent by someone else in the group
             convertView = messageInflater.inflate(R.layout.item_message_received, null);
             holder.avatar = (View) convertView.findViewById(R.id.image_message_profile);
@@ -74,7 +76,8 @@ public class MessageListAdapter extends BaseAdapter {
             convertView.setTag(holder);
             holder.messageBody.setText(message.getContent());
             holder.messageTime = (TextView) convertView.findViewById(R.id.text_message_time);
-            holder.messageTime.setText(message.getTime());
+            String currentTime = Message.initliazeTime();
+            holder.messageTime.setText(currentTime.substring(0, currentTime.length() - 3));
 //           TODO: GradientDrawable drawable = (GradientDrawable) holder.avatar.getBackground();
 //           TODO: drawable.setColor(Color.parseColor(message.getData().getColor()));
         }
