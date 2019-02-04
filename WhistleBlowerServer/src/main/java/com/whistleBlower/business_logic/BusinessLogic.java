@@ -23,7 +23,7 @@ public class BusinessLogic {
     public BusinessLogic() {
         groups = new ArrayList<>();
         users = new ArrayList<>();
-        createDefaultGroup();
+//        createDefaultGroup();
     }
 
     private void createDefaultGroup() {
@@ -40,7 +40,7 @@ public class BusinessLogic {
     public void createUser(User newUser) {
         boolean userNotExist = users.stream().noneMatch(user -> user.getUserId().equals(newUser.getUserId()));
         if (userNotExist) {
-            users.add(newUser);
+            users.add(new User(newUser.getUserId()));
         }
     }
 
@@ -79,7 +79,7 @@ public class BusinessLogic {
     }
 
     private void createDefaultMessage(Group group) {
-        Message defaultMessage = new Message("Hello, This is anonymous... ", "0", group.getId(), false);
+        Message defaultMessage = new Message("Hello, This is anonymous chat.  ", "0", group.getId(), false);
         group.getUserIds().forEach(user -> getUserById(user).addMessage(defaultMessage));
         group.setLastMessage(defaultMessage);
     }
