@@ -22,6 +22,8 @@ public class Message {
 
     public boolean isBelongToUser;
 
+    public int iconNumber;
+
     public Message() {
     }
 
@@ -31,6 +33,14 @@ public class Message {
         this.groupId = groupId;
         this.time = initliazeTime();
         this.isBelongToUser = isBelongsToCurrentUser;
+    }
+
+    public int getIconNumber() {
+        return iconNumber;
+    }
+
+    public void setIconNumber(int num) {
+        iconNumber = num;
     }
 
     public String getContent() {

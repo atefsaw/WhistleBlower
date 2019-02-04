@@ -15,7 +15,9 @@ import android.widget.ImageView;
 import android.widget.ListView;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.TimerTask;
 
 
@@ -37,7 +39,13 @@ public class ChatActivity extends AppCompatActivity {
     public ChatViewModel chatViewModel;
     ActionBar actionBar;
 
-    private final static int MESSAGE_POLLING_INTERVAL = 500;
+    public static Map<Integer, Integer> idToIcon = new HashMap<Integer, Integer>() {{
+        put(1, R.drawable.sender1);
+        put(2, R.drawable.sender2);
+        put(3, R.drawable.sender3);
+    }};
+
+    private final static int MESSAGE_POLLING_INTERVAL = 300;
 
     /**
      * This method sends a message to the group.

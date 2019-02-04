@@ -9,7 +9,9 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class MessageListAdapter extends BaseAdapter {
 
@@ -72,6 +74,8 @@ public class MessageListAdapter extends BaseAdapter {
         } else { // this message was sent by someone else in the group
             convertView = messageInflater.inflate(R.layout.item_message_received, null);
             holder.avatar = (View) convertView.findViewById(R.id.image_message_profile);
+            holder.avatar.setBackgroundResource(ChatActivity.idToIcon.get(message.iconNumber));
+
             holder.messageBody = (TextView) convertView.findViewById(R.id.text_message_body);
             convertView.setTag(holder);
             holder.messageBody.setText(message.getContent());

@@ -3,19 +3,24 @@ package com.android.example.myapplication;
 import android.Manifest;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Handler;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.Toast;
 
 import java.util.List;
 import java.util.Map;
@@ -149,15 +154,55 @@ public class GroupsActivity extends AppCompatActivity {
     }
 
 
+    private void requestContactsPermission(){
+        if(ActivityCompat.shouldShowRequestPermissionRationale(this,
+                Manifest.permission.READ_CONTACTS)){
+            // if this permission is already denied
+            new AlertDialog.Builder(this).setTitle("Permission needed")
+                    .setMessage("This permission needed for choosing contacts you want to add for the group!").setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    ActivityCompat.requestPermissions(GroupsActivity.this, new String[]{Manifest.permission.READ_CONTACTS}, 1);
+
+                }
+            }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                }
+            }).create().show();
+        }else{
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_CONTACTS}, 1);
+
+        }
+    }
+
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if (requestCode == 1){
+            if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+                Toast.makeText(this, "Permission Granted!", Toast.LENGTH_SHORT).show();
+            }else{
+                Toast.makeText(this, "Permission Denied!", Toast.LENGTH_SHORT).show();
+            }
+        }
+
+    }
+
     /**
      * This method will be envoked when user clicks on the add group button.
      */
     public void addGroup(View view){
+        if(ContextCompat.checkSelfPermission(GroupsActivity.this, Manifest.permission.READ_CONTACTS)
+                != PackageManager.PERMISSION_GRANTED){
+            requestContactsPermission();
+        }
         timerHandler.removeCallbacks(timerRunnable); // Stops the polling thread of getting groups
         Intent intent = new Intent(this, SelectContacts.class);
         intent.putExtra(getString(R.string.phoneNumberIntentKey), currentUser.getUserId());
         startActivityForResult(intent, CREATE_GROUP_REQUEST);
-//        finish();0
+//        finish();
     }
 
 }
