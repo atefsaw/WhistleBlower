@@ -26,15 +26,15 @@ public class BusinessLogicTest {
     }
 
 
-    @Test
-    public void testBusinessLogic(){
-        User user = new User("3");
-        final String uri = "http://172.29.123.134:8027/createUser";
-        HttpHeaders headers = new HttpHeaders();
-        headers.add("Content-Type", "application/json");
-        HttpEntity<User> request = new HttpEntity<>(user, headers);
-        RestTemplate restTemplate = new RestTemplate();
-        String response = restTemplate.postForObject(uri, request, String.class);
-        System.out.println("check");
-    }
+//    @Test
+//    public void testBusinessLogic(){
+//        User user = new User("3");
+//        final String uri = "http://172.29.123.134:8027/createUser";
+//        HttpHeaders headers = new HttpHeaders();
+//        headers.add("Content-Type", "application/json");
+//        HttpEntity<User> request = new HttpEntity<>(user, headers);
+//        RestTemplate restTemplate = new RestTemplate();
+//        String response = restTemplate.postForObject(uri, request, String.class);
+//        System.out.println("check");
+//    }
 }

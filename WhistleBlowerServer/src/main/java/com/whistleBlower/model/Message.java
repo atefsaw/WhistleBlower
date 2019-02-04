@@ -48,7 +48,7 @@ public class Message {
     }
 
     public String getTime() {
-        return this.time.substring(0, this.time.length() - 3);
+        return this.time;
     }
 
     public void setTime(String time) {
